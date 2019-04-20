@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<package xmlns="http://schemas.microsoft.com/packaging/2012/06/nuspec.xsd">
+  <metadata>
+    <id>RyanJuan.Minerva.SqlClient</id>
+    <version>1.0.0-beta6</version>
+    <description>Minerva for SQL Server. Minerva is a light weight database helper, aim for simplify the data binding process for both parameter and return data.</description>
+    <authors>RyanJuan</authors>
+    <owners>RyanJuan</owners>
+    <projectUrl>https://github.com/ryans610/Minerva</projectUrl>
+    <license type="expression">MIT</license>
+    <requireLicenseAcceptance>false</requireLicenseAcceptance>
+    <releaseNotes>Refactoring and some mechanism change.</releaseNotes>
+    <copyright>Copyright ©2019 RyanJuan</copyright>
+    <language>en</language>
+    <dependencies>
+      <group targetFramework=".NETStandard2.0">
+        <dependency id="System.Data.SqlClient" version="4.5.1" />
+        <dependency id="RyanJuan.Minerva.Common" version="1.0.0-beta6" />
+      </group>
+    </dependencies>
+  </metadata>
+  <files>
+    <file src="lib\**" target="lib" />
+  </files>
+</package>

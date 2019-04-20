@@ -1,0 +1,36 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>netstandard2.0</TargetFramework>
+    <Version>1.0.0-beta3</Version>
+    <Authors>RyanJuan</Authors>
+    <Company>RyanJuan</Company>
+    <Copyright>Copyright ©2019 RyanJuan</Copyright>
+    <PackageProjectUrl>https://github.com/ryans610/Minerva</PackageProjectUrl>
+    <PackageLicenseUrl>https://github.com/ryans610/Minerva/blob/master/LICENSE</PackageLicenseUrl>
+    <Description>Minerva for SQL Server. Minerva is a light weight database helper, aim for simplify the data binding process for both parameter and return data.</Description>
+    <Configurations>Debug;Release;Release-zh-Hant</Configurations>
+  </PropertyGroup>
+
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
+    <DocumentationFile>D:\ryan\Minerva\RyanJuan.Minerva.SqlClient\RyanJuan.Minerva.SqlClient.xml</DocumentationFile>
+  </PropertyGroup>
+
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
+    <DocumentationFile>D:\ryan\Minerva\RyanJuan.Minerva.SqlClient\RyanJuan.Minerva.SqlClient.xml</DocumentationFile>
+  </PropertyGroup>
+
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release-zh-Hant|AnyCPU'">
+    <DocumentationFile>D:\ryan\Minerva\RyanJuan.Minerva.SqlClient\RyanJuan.Minerva.SqlClient.xml</DocumentationFile>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="RyanJuan.Minerva.Common" Version="1.0.0-beta6" />
+    <PackageReference Include="System.Data.SqlClient" Version="4.5.1" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="lib\netstandard2.0\" />
+  </ItemGroup>
+
+</Project>

@@ -1,0 +1,731 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>RyanJuan.Minerva.Common</name>
+    </assembly>
+    <members>
+        <member name="T:RyanJuan.Minerva.DbColumnNameAttribute">
+            <summary>
+            Specifies the name of the corresponding database column.
+            </summary>
+        </member>
+        <member name="M:RyanJuan.Minerva.DbColumnNameAttribute.#ctor(System.String)">
+            <summary>
+            Specifies the name of the corresponding database column.
+            </summary>
+            <param name="name">Column's name.</param>
+        </member>
+        <member name="P:RyanJuan.Minerva.DbColumnNameAttribute.Name">
+            <summary>
+            Column's name.
+            </summary>
+        </member>
+        <member name="P:RyanJuan.Minerva.DbColumnNameAttribute.UseAsParameter">
+            <summary>
+            Whether this name will be used as parameter's name or not.
+            </summary>
+        </member>
+        <member name="T:RyanJuan.Minerva.DbParameterNameAttribute">
+            <summary>
+            Specifies the name of the corresponding parameter.
+            </summary>
+        </member>
+        <member name="M:RyanJuan.Minerva.DbParameterNameAttribute.#ctor(System.String)">
+            <summary>
+            Specifies the name of the corresponding parameter.
+            </summary>
+            <param name="name">Parameter's name.</param>
+        </member>
+        <member name="P:RyanJuan.Minerva.DbParameterNameAttribute.Name">
+            <summary>
+            Parameter's name.
+            </summary>
+        </member>
+        <member name="T:RyanJuan.Minerva.DbTypeAttribute">
+            <summary>
+            Specifies the database type of the corresponding parameter or column.
+            </summary>
+        </member>
+        <member name="M:RyanJuan.Minerva.DbTypeAttribute.#ctor(System.Data.DbType)">
+            <summary>
+            Specifies the database type of the corresponding parameter or column.
+            </summary>
+            <param name="dbType">One of the <see cref="T:System.Data.DbType"/> value.</param>
+        </member>
+        <member name="M:RyanJuan.Minerva.DbTypeAttribute.#ctor(System.Data.DbType,System.Int32)">
+            <summary>
+            Specifies the database type of the corresponding parameter or column.
+            </summary>
+            <param name="dbType">One of the <see cref="T:System.Data.DbType"/> value.</param>
+            <param name="size">Length limit of the parameter.</param>
+            <exception cref="T:System.ArgumentException">
+            Value of <paramref name="size"/> is not greater than zero.
+            </exception>
+        </member>
+        <member name="P:RyanJuan.Minerva.DbTypeAttribute.DBType">
+            <summary>
+            資料庫欄位的型別。
+            </summary>
+        </member>
+        <member name="P:RyanJuan.Minerva.DbTypeAttribute.Size">
+            <summary>
+            Length limit of the parameter.
+            </summary>
+        </member>
+        <member name="P:RyanJuan.Minerva.DbTypeAttribute.AllowNull">
+            <summary>
+            (Optional) Whether this parameter allow <see langword="null"/> or not.
+            The default value is <see langword="false"/>.
+            </summary>
+        </member>
+        <member name="P:RyanJuan.Minerva.Common.InternalHelper.DBTypeMap">
+            <summary>
+            Mapping table for <see cref="T:System.Type"/> and <see cref="T:System.Data.DbType"/>.
+            </summary>
+        </member>
+        <member name="M:RyanJuan.Minerva.Common.InternalHelper.GetInstanceProperties(System.Type)">
+            <summary>
+            Gets properties of the input type which are instance member.
+            </summary>
+            <param name="type">Input <see cref="T:System.Type"/>.</param>
+            <returns>All matching properties.</returns>
+        </member>
+        <member name="T:RyanJuan.Minerva.Common.MinervaCore">
+            <summary>
+            Core project for RyanJuan.Minerva.
+            <para>
+            Should not be used directly, use other subset of RyanJuan.Minerva which implement for
+            various database instead, such as RyanJuan.Minerva.SqlClient,
+            RyanJuan.Minerva.Odbc etc.
+            </para>
+            </summary>
+        </member>
+        <member name="M:RyanJuan.Minerva.Common.MinervaCore.AddWithValues(System.Data.Common.DbParameterCollection,System.Object[])">
+            <summary>
+            Adds the new instance of <see cref="T:System.Data.Common.DbParameter"/> to
+            <see cref="T:System.Data.Common.DbParameterCollection"/> which the <see cref="T:System.Data.Common.DbParameter"/> is
+            constructed using properties of the input objects.
+            <para>
+            When constructing <see cref="T:System.Data.Common.DbParameter"/> instances, the value of
+            <see cref="P:System.Data.Common.DbParameter.ParameterName"/> will be set from properties of input
+            <paramref name="parameters"/> object.
+            If the property has <see cref="T:RyanJuan.Minerva.DbParameterNameAttribute"/>,
+            <see cref="P:RyanJuan.Minerva.DbParameterNameAttribute.Name"/> will be used as parameter name.
+            If the property has multiple <see cref="T:RyanJuan.Minerva.DbParameterNameAttribute"/>, multiple
+            <see cref="T:System.Data.Common.DbParameter"/> instance will be create.
+            Aslo if the property has <see cref="T:RyanJuan.Minerva.DbColumnNameAttribute"/> and
+            <see cref="P:RyanJuan.Minerva.DbColumnNameAttribute.UseAsParameter"/> set to <see langword="true"/>,
+            <see cref="P:RyanJuan.Minerva.DbColumnNameAttribute.Name"/> will be used as parameter name to create
+            an additional <see cref="T:System.Data.Common.DbParameter"/> instance.
+            At last, if none of the above condition are met, the property name will be used as
+            parameter name.
+            </para>
+            <para>
+            If parameter with the same name has already exists in
+            <see cref="T:System.Data.Common.DbParameterCollection"/>, that property will be ignore.
+            </para>
+            <para>
+            After <see cref="T:System.Data.Common.DbParameter"/> instance is created, parameter type will be set
+            before the value is set.
+            If the property has <see cref="T:RyanJuan.Minerva.DbTypeAttribute"/>,
+            <see cref="P:RyanJuan.Minerva.DbTypeAttribute.DBType"/> will be used as parameter type, otherwise
+            this method will take the property's type and convert to corresponding
+            <see cref="T:System.Data.DbType"/>.
+            </para>
+            <para>
+            The <see cref="T:System.ArgumentException"/> will be thrown if the <see cref="T:System.Data.DbType"/>
+            of parameter is not valid.
+            </para>
+            </summary>
+            <param name="collection">Instance of <see cref="T:System.Data.Common.DbParameterCollection"/>.</param>
+            <param name="parameters">The objects which use to construct parameter.</param>
+            <returns>Instance of <see cref="T:System.Data.Common.DbParameterCollection"/>.</returns>
+            <exception cref="T:System.ArgumentNullException">
+            Parameter <paramref name="collection"/> is null.
+            </exception>
+            <exception cref="T:System.ArgumentException">
+            <see cref="T:System.Data.DbType"/> of parameter is not valid.
+            </exception>
+        </member>
+        <member name="M:RyanJuan.Minerva.Common.MinervaCore.AddParameterValue(System.Data.Common.DbParameterCollection,System.String,System.Object,System.Data.DbType,System.Nullable{System.Int32})">
+            <summary>
+            Adds a <see cref="T:System.Data.Common.DbParameter"/> into <see cref="T:System.Data.Common.DbParameterCollection"/>.
+            </summary>
+            <param name="collection">Instance of <see cref="T:System.Data.Common.DbParameterCollection"/>.</param>
+            <param name="name">Name of parameter.</param>
+            <param name="value">Value of parameter.</param>
+            <param name="type">Database type of parameter.</param>
+            <param name="size">(Optional) Lenght limit for column in database.</param>
+        </member>
+        <member name="M:RyanJuan.Minerva.Common.MinervaCore.BeginTransaction(System.Data.Common.DbConnection,System.Data.Common.DbCommand,System.Data.IsolationLevel)">
+            <summary>
+            Starts a database transaction with the specified <see cref="T:System.Data.Common.DbCommand"/>
+            and isolation level.
+            </summary>
+            <param name="connection">Database connection.</param>
+            <param name="command">Specified <see cref="T:System.Data.Common.DbCommand"/> object.</param>
+            <param name="isolationLevel">
+            Specifies the isolaction level for the transaction.
+            </param>
+            <returns>Database transaction object.</returns>
+            <exception cref="T:System.ArgumentNullException">
+            Parameter <paramref name="connection"/> or <paramref name="command"/> is null.
+            </exception>
+        </member>
+        <member name="M:RyanJuan.Minerva.Common.MinervaCore.Execute(System.Data.Common.DbCommand,System.Object[])">
+            <summary>
+            Executes a SQL statement against a connection object.
+            <para>
+            This method will call
+            <see cref="M:RyanJuan.Minerva.Common.MinervaCore.AddWithValues(System.Data.Common.DbParameterCollection,System.Object[])"/>
+            to add parameters into <see cref="P:System.Data.Common.DbCommand.Parameters"/>.
+            </para>
+            </summary>
+            <param name="command">Instance of <see cref="T:System.Data.Common.DbCommand"/>.</param>
+            <param name="parameters">The objects which use to construct parameter.</param>
+            <returns>The number of rows affected.</returns>
+            <exception cref="T:System.ArgumentNullException">
+            Parameter <paramref name="command"/> is null.
+            </exception>
+            <exception cref="T:System.ArgumentException">
+            <see cref="T:System.Data.DbType"/> of parameter is not valid.
+            </exception>
+        </member>
+        <member name="M:RyanJuan.Minerva.Common.MinervaCore.ExecuteAsync(System.Data.Common.DbCommand,System.Threading.CancellationToken,System.Object[])">
+            <summary>
+            This is the asynchronous version of
+            <see cref="M:RyanJuan.Minerva.Common.MinervaCore.Execute(System.Data.Common.DbCommand,System.Object[])"/>.
+            Executes a SQL statement against a connection object.
+            The cancellation token can be used to request that the operation be abandoned
+            before the command timeout elapses.
+            <para>
+            This method will call
+            <see cref="M:RyanJuan.Minerva.Common.MinervaCore.AddWithValues(System.Data.Common.DbParameterCollection,System.Object[])"/>
+            to add parameters into <see cref="P:System.Data.Common.DbCommand.Parameters"/>.
+            </para>
+            </summary>
+            <param name="command">Instance of <see cref="T:System.Data.Common.DbCommand"/>.</param>
+            <param name="cancellationToken">
+            The token to monitor for cancellation requests.
+            </param>
+            <param name="parameters">The objects which use to construct parameter.</param>
+            <returns>The number of rows affected.</returns>
+            <exception cref="T:System.ArgumentNullException">
+            Parameter <paramref name="command"/> is null.
+            </exception>
+            <exception cref="T:System.ArgumentException">
+            <see cref="T:System.Data.DbType"/> of parameter is not valid.
+            </exception>
+        </member>
+        <member name="M:RyanJuan.Minerva.Common.MinervaCore.FetchData``1(System.Data.Common.DbCommand,System.Data.CommandBehavior,RyanJuan.Minerva.FetchMode,System.Object[])">
+            <summary>
+            Execute the <see cref="P:System.Data.Common.DbCommand.CommandText"/> against the
+            <see cref="P:System.Data.Common.DbCommand.Connection"/>, and return an enumerable of type
+            <typeparamref name="T"/> for results using one of the <see cref="T:System.Data.CommandBehavior"/>
+            values.
+            <para>
+            If the type <typeparamref name="T"/> is class, properties will be mapping to columns
+            by <see cref="P:RyanJuan.Minerva.DbColumnNameAttribute.Name"/>.
+            If multiple properties have the same <see cref="P:RyanJuan.Minerva.DbColumnNameAttribute.Name"/>, then
+            that column will be mapping into multiple properties.
+            For those properties which does not have <see cref="T:RyanJuan.Minerva.DbColumnNameAttribute"/>,
+            property's name will be used.
+            </para>
+            <para>
+            This method will call
+            <see cref="M:RyanJuan.Minerva.Common.MinervaCore.AddWithValues(System.Data.Common.DbParameterCollection,System.Object[])"/>
+            to add parameters into <see cref="P:System.Data.Common.DbCommand.Parameters"/>.
+            </para>
+            </summary>
+            <typeparam name="T">The type of the result.</typeparam>
+            <param name="command">Instance of <see cref="T:System.Data.Common.DbCommand"/>.</param>
+            <param name="behavior">One of the <see cref="T:System.Data.CommandBehavior"/> values.</param>
+            <param name="fetchMode"></param>
+            <param name="parameters">The objects which use to construct parameter.</param>
+            <returns>Enumerable of results.</returns>
+            <exception cref="T:System.ArgumentNullException">
+            Parameter <paramref name="command"/> is null.
+            </exception>
+            <exception cref="T:System.ArgumentException">
+            <see cref="T:System.Data.DbType"/> of parameter is not valid.
+            </exception>
+        </member>
+        <member name="M:RyanJuan.Minerva.Common.MinervaCore.FetchDataAsync``1(System.Data.Common.DbCommand,System.Data.CommandBehavior,RyanJuan.Minerva.FetchMode,System.Threading.CancellationToken,System.Object[])">
+            <summary>
+            This is the asynchronous version of
+            <see cref="M:RyanJuan.Minerva.Common.MinervaCore.FetchData``1(System.Data.Common.DbCommand,System.Data.CommandBehavior,RyanJuan.Minerva.FetchMode,System.Object[])"/>.
+            Execute the <see cref="P:System.Data.Common.DbCommand.CommandText"/> against the
+            <see cref="P:System.Data.Common.DbCommand.Connection"/>, and return an enumerable of type
+            <typeparamref name="T"/> for results using one of the <see cref="T:System.Data.CommandBehavior"/>
+            values.
+            The cancellation token can be used to request that the operation be abandoned
+            before the command timeout elapses.
+            <para>
+            If the type <typeparamref name="T"/> is class, properties will be mapping to columns
+            by <see cref="P:RyanJuan.Minerva.DbColumnNameAttribute.Name"/>.
+            If multiple properties have the same <see cref="P:RyanJuan.Minerva.DbColumnNameAttribute.Name"/>, then
+            that column will be mapping into multiple properties.
+            For those properties which does not have <see cref="T:RyanJuan.Minerva.DbColumnNameAttribute"/>,
+            property's name will be used.
+            </para>
+            <para>
+            This method will call
+            <see cref="M:RyanJuan.Minerva.Common.MinervaCore.AddWithValues(System.Data.Common.DbParameterCollection,System.Object[])"/>
+            to add parameters into <see cref="P:System.Data.Common.DbCommand.Parameters"/>.
+            </para>
+            </summary>
+            <typeparam name="T">The type of the result.</typeparam>
+            <param name="command">Instance of <see cref="T:System.Data.Common.DbCommand"/>.</param>
+            <param name="behavior">One of the <see cref="T:System.Data.CommandBehavior"/> values.</param>
+            <param name="fetchMode"></param>
+            <param name="cancellationToken">
+            The token to monitor for cancellation requests.
+            </param>
+            <param name="parameters">The objects which use to construct parameter.</param>
+            <returns>Enumerable of results.</returns>
+            <exception cref="T:System.ArgumentNullException">
+            Parameter <paramref name="command"/> is null.
+            </exception>
+            <exception cref="T:System.ArgumentException">
+            <see cref="T:System.Data.DbType"/> of parameter is not valid.
+            </exception>
+        </member>
+        <member name="M:RyanJuan.Minerva.Common.MinervaCore.FetchDataStream`1.#ctor(System.Data.Common.DbDataReader,System.Boolean,System.Collections.Generic.LinkedList{System.Reflection.PropertyInfo}[],System.Threading.CancellationToken)">
+            <summary>
+            For <see cref="F:RyanJuan.Minerva.FetchMode.Stream"/>.
+            </summary>
+            <param name="reader"></param>
+            <param name="isObjectType"></param>
+            <param name="properties"></param>
+            <param name="cancellationToken"></param>
+        </member>
+        <member name="M:RyanJuan.Minerva.Common.MinervaCore.FetchDataStream`1.#ctor(System.Data.Common.DbDataReader,System.Boolean,System.Collections.Generic.LinkedList{System.Reflection.PropertyInfo}[],System.Collections.Generic.List{`0},System.Threading.CancellationToken)">
+            <summary>
+            For <see cref="F:RyanJuan.Minerva.FetchMode.Hybrid"/>.
+            </summary>
+            <param name="reader"></param>
+            <param name="isObjectType"></param>
+            <param name="properties"></param>
+            <param name="buffer"></param>
+            <param name="cancellationToken"></param>
+        </member>
+        <member name="M:RyanJuan.Minerva.Common.MinervaCore.FetchFirst``1(System.Data.Common.DbCommand,System.Object[])">
+            <summary>
+            Execute the <see cref="P:System.Data.Common.DbCommand.CommandText"/> against the
+            <see cref="P:System.Data.Common.DbCommand.Connection"/>, and return the single data of result.
+            If the result contains more than one data, an
+            <see cref="T:System.InvalidOperationException"/> will be throw.
+            <para>
+            If the type <typeparamref name="T"/> is class, properties will be mapping to columns
+            by <see cref="P:RyanJuan.Minerva.DbColumnNameAttribute.Name"/>.
+            If multiple properties have the same <see cref="P:RyanJuan.Minerva.DbColumnNameAttribute.Name"/>, then
+            that column will be mapping into multiple properties.
+            For those properties which does not have <see cref="T:RyanJuan.Minerva.DbColumnNameAttribute"/>,
+            property's name will be used.
+            </para>
+            <para>
+            This method will call
+            <see cref="M:RyanJuan.Minerva.Common.MinervaCore.AddWithValues(System.Data.Common.DbParameterCollection,System.Object[])"/>
+            to add parameters into <see cref="P:System.Data.Common.DbCommand.Parameters"/>.
+            </para>
+            </summary>
+            <typeparam name="T">The type of the result.</typeparam>
+            <param name="command">Instance of <see cref="T:System.Data.Common.DbCommand"/>.</param>
+            <param name="parameters">The objects which use to construct parameter.</param>
+            <returns>Enumerable of results.</returns>
+            <exception cref="T:System.ArgumentNullException">
+            Parameter <paramref name="command"/> is null.
+            </exception>
+            <exception cref="T:System.ArgumentException">
+            <see cref="T:System.Data.DbType"/> of parameter is not valid.
+            </exception>
+            <exception cref="T:System.InvalidOperationException">
+            The data contains more than one row.
+            </exception>
+        </member>
+        <member name="M:RyanJuan.Minerva.Common.MinervaCore.FetchFirstAsync``1(System.Data.Common.DbCommand,System.Threading.CancellationToken,System.Object[])">
+            <summary>
+            This is the asynchronous version of
+            <see cref="M:RyanJuan.Minerva.Common.MinervaCore.FetchFirst``1(System.Data.Common.DbCommand,System.Object[])"/>.
+            Execute the <see cref="P:System.Data.Common.DbCommand.CommandText"/> against the
+            <see cref="P:System.Data.Common.DbCommand.Connection"/>, and return the single data of result.
+            If the result contains more than one data, an
+            <see cref="T:System.InvalidOperationException"/> will be throw.
+            The cancellation token can be used to request that the operation be abandoned
+            before the command timeout elapses.
+            <para>
+            If the type <typeparamref name="T"/> is class, properties will be mapping to columns
+            by <see cref="P:RyanJuan.Minerva.DbColumnNameAttribute.Name"/>.
+            If multiple properties have the same <see cref="P:RyanJuan.Minerva.DbColumnNameAttribute.Name"/>, then
+            that column will be mapping into multiple properties.
+            For those properties which does not have <see cref="T:RyanJuan.Minerva.DbColumnNameAttribute"/>,
+            property's name will be used.
+            </para>
+            <para>
+            This method will call
+            <see cref="M:RyanJuan.Minerva.Common.MinervaCore.AddWithValues(System.Data.Common.DbParameterCollection,System.Object[])"/>
+            to add parameters into <see cref="P:System.Data.Common.DbCommand.Parameters"/>.
+            </para>
+            </summary>
+            <typeparam name="T">The type of the result.</typeparam>
+            <param name="command">Instance of <see cref="T:System.Data.Common.DbCommand"/>.</param>
+            <param name="cancellationToken">
+            The token to monitor for cancellation requests.
+            </param>
+            <param name="parameters">The objects which use to construct parameter.</param>
+            <returns>Enumerable of results.</returns>
+            <exception cref="T:System.ArgumentNullException">
+            Parameter <paramref name="command"/> is null.
+            </exception>
+            <exception cref="T:System.ArgumentException">
+            <see cref="T:System.Data.DbType"/> of parameter is not valid.
+            </exception>
+            <exception cref="T:System.InvalidOperationException">
+            The data contains more than one row.
+            </exception>
+        </member>
+        <member name="M:RyanJuan.Minerva.Common.MinervaCore.FetchFirstOrDefault``1(System.Data.Common.DbCommand,System.Object[])">
+            <summary>
+            Execute the <see cref="P:System.Data.Common.DbCommand.CommandText"/> against the
+            <see cref="P:System.Data.Common.DbCommand.Connection"/>, and return the single data of result.
+            If the result contains more than one data, an
+            <see cref="T:System.InvalidOperationException"/> will be throw.
+            <para>
+            If the type <typeparamref name="T"/> is class, properties will be mapping to columns
+            by <see cref="P:RyanJuan.Minerva.DbColumnNameAttribute.Name"/>.
+            If multiple properties have the same <see cref="P:RyanJuan.Minerva.DbColumnNameAttribute.Name"/>, then
+            that column will be mapping into multiple properties.
+            For those properties which does not have <see cref="T:RyanJuan.Minerva.DbColumnNameAttribute"/>,
+            property's name will be used.
+            </para>
+            <para>
+            This method will call
+            <see cref="M:RyanJuan.Minerva.Common.MinervaCore.AddWithValues(System.Data.Common.DbParameterCollection,System.Object[])"/>
+            to add parameters into <see cref="P:System.Data.Common.DbCommand.Parameters"/>.
+            </para>
+            </summary>
+            <typeparam name="T">The type of the result.</typeparam>
+            <param name="command">Instance of <see cref="T:System.Data.Common.DbCommand"/>.</param>
+            <param name="parameters">The objects which use to construct parameter.</param>
+            <returns>Enumerable of results.</returns>
+            <exception cref="T:System.ArgumentNullException">
+            Parameter <paramref name="command"/> is null.
+            </exception>
+            <exception cref="T:System.ArgumentException">
+            <see cref="T:System.Data.DbType"/> of parameter is not valid.
+            </exception>
+            <exception cref="T:System.InvalidOperationException">
+            The data contains more than one row.
+            </exception>
+        </member>
+        <member name="M:RyanJuan.Minerva.Common.MinervaCore.FetchFirstOrDefaultAsync``1(System.Data.Common.DbCommand,System.Threading.CancellationToken,System.Object[])">
+            <summary>
+            This is the asynchronous version of
+            <see cref="M:RyanJuan.Minerva.Common.MinervaCore.FetchFirstOrDefault``1(System.Data.Common.DbCommand,System.Object[])"/>.
+            Execute the <see cref="P:System.Data.Common.DbCommand.CommandText"/> against the
+            <see cref="P:System.Data.Common.DbCommand.Connection"/>, and return the single data of result.
+            If the result contains more than one data, an
+            <see cref="T:System.InvalidOperationException"/> will be throw.
+            The cancellation token can be used to request that the operation be abandoned
+            before the command timeout elapses.
+            <para>
+            If the type <typeparamref name="T"/> is class, properties will be mapping to columns
+            by <see cref="P:RyanJuan.Minerva.DbColumnNameAttribute.Name"/>.
+            If multiple properties have the same <see cref="P:RyanJuan.Minerva.DbColumnNameAttribute.Name"/>, then
+            that column will be mapping into multiple properties.
+            For those properties which does not have <see cref="T:RyanJuan.Minerva.DbColumnNameAttribute"/>,
+            property's name will be used.
+            </para>
+            <para>
+            This method will call
+            <see cref="M:RyanJuan.Minerva.Common.MinervaCore.AddWithValues(System.Data.Common.DbParameterCollection,System.Object[])"/>
+            to add parameters into <see cref="P:System.Data.Common.DbCommand.Parameters"/>.
+            </para>
+            </summary>
+            <typeparam name="T">The type of the result.</typeparam>
+            <param name="command">Instance of <see cref="T:System.Data.Common.DbCommand"/>.</param>
+            <param name="cancellationToken">
+            The token to monitor for cancellation requests.
+            </param>
+            <param name="parameters">The objects which use to construct parameter.</param>
+            <returns>Enumerable of results.</returns>
+            <exception cref="T:System.ArgumentNullException">
+            Parameter <paramref name="command"/> is null.
+            </exception>
+            <exception cref="T:System.ArgumentException">
+            <see cref="T:System.Data.DbType"/> of parameter is not valid.
+            </exception>
+            <exception cref="T:System.InvalidOperationException">
+            The data contains more than one row.
+            </exception>
+        </member>
+        <member name="M:RyanJuan.Minerva.Common.MinervaCore.FetchScalar``1(System.Data.Common.DbCommand,System.Object[])">
+            <summary>
+            Executes the query and returns the first column of the first row in the result set
+            returned by the query. All other columns and rows are ignored.
+            <para>
+            This method will call
+            <see cref="M:RyanJuan.Minerva.Common.MinervaCore.AddWithValues(System.Data.Common.DbParameterCollection,System.Object[])"/>
+            to add parameters into <see cref="P:System.Data.Common.DbCommand.Parameters"/>.
+            </para>
+            </summary>
+            <typeparam name="T">The type of the result.</typeparam>
+            <param name="command">Instance of <see cref="T:System.Data.Common.DbCommand"/>.</param>
+            <param name="parameters">The objects which use to construct parameter.</param>
+            <returns>The first column of the first row in the result set.</returns>
+            <exception cref="T:System.ArgumentNullException">
+            Parameter <paramref name="command"/> is null.
+            </exception>
+            <exception cref="T:System.ArgumentException">
+            <see cref="T:System.Data.DbType"/> of parameter is not valid.
+            </exception>
+        </member>
+        <member name="M:RyanJuan.Minerva.Common.MinervaCore.FetchScalarAsync``1(System.Data.Common.DbCommand,System.Threading.CancellationToken,System.Object[])">
+            <summary>
+            This is the asynchronous version of
+            <see cref="M:RyanJuan.Minerva.Common.MinervaCore.FetchScalar``1(System.Data.Common.DbCommand,System.Object[])"/>.
+            Executes the query and returns the first column of the first row in the result set
+            returned by the query. All other columns and rows are ignored.
+            The cancellation token can be used to request that the operation be abandoned
+            before the command timeout elapses.
+            <para>
+            This method will call
+            <see cref="M:RyanJuan.Minerva.Common.MinervaCore.AddWithValues(System.Data.Common.DbParameterCollection,System.Object[])"/>
+            to add parameters into <see cref="P:System.Data.Common.DbCommand.Parameters"/>.
+            </para>
+            </summary>
+            <typeparam name="T">The type of the result.</typeparam>
+            <param name="command">Instance of <see cref="T:System.Data.Common.DbCommand"/>.</param>
+            <param name="cancellationToken">
+            The token to monitor for cancellation requests.
+            </param>
+            <param name="parameters">The objects which use to construct parameter.</param>
+            <returns>The first column of the first row in the result set.</returns>
+            <exception cref="T:System.ArgumentNullException">
+            Parameter <paramref name="command"/> is null.
+            </exception>
+            <exception cref="T:System.ArgumentException">
+            <see cref="T:System.Data.DbType"/> of parameter is not valid.
+            </exception>
+        </member>
+        <member name="M:RyanJuan.Minerva.Common.MinervaCore.FetchSingle``1(System.Data.Common.DbCommand,System.Object[])">
+            <summary>
+            Execute the <see cref="P:System.Data.Common.DbCommand.CommandText"/> against the
+            <see cref="P:System.Data.Common.DbCommand.Connection"/>, and return the single data of result.
+            If the result contains more than one data, an
+            <see cref="T:System.InvalidOperationException"/> will be throw.
+            <para>
+            If the type <typeparamref name="T"/> is class, properties will be mapping to columns
+            by <see cref="P:RyanJuan.Minerva.DbColumnNameAttribute.Name"/>.
+            If multiple properties have the same <see cref="P:RyanJuan.Minerva.DbColumnNameAttribute.Name"/>, then
+            that column will be mapping into multiple properties.
+            For those properties which does not have <see cref="T:RyanJuan.Minerva.DbColumnNameAttribute"/>,
+            property's name will be used.
+            </para>
+            <para>
+            This method will call
+            <see cref="M:RyanJuan.Minerva.Common.MinervaCore.AddWithValues(System.Data.Common.DbParameterCollection,System.Object[])"/>
+            to add parameters into <see cref="P:System.Data.Common.DbCommand.Parameters"/>.
+            </para>
+            </summary>
+            <typeparam name="T">The type of the result.</typeparam>
+            <param name="command">Instance of <see cref="T:System.Data.Common.DbCommand"/>.</param>
+            <param name="parameters">The objects which use to construct parameter.</param>
+            <returns>Enumerable of results.</returns>
+            <exception cref="T:System.ArgumentNullException">
+            Parameter <paramref name="command"/> is null.
+            </exception>
+            <exception cref="T:System.ArgumentException">
+            <see cref="T:System.Data.DbType"/> of parameter is not valid.
+            </exception>
+            <exception cref="T:System.InvalidOperationException">
+            The data contains more than one row.
+            </exception>
+        </member>
+        <member name="M:RyanJuan.Minerva.Common.MinervaCore.FetchSingleAsync``1(System.Data.Common.DbCommand,System.Threading.CancellationToken,System.Object[])">
+            <summary>
+            This is the asynchronous version of
+            <see cref="M:RyanJuan.Minerva.Common.MinervaCore.FetchSingle``1(System.Data.Common.DbCommand,System.Object[])"/>.
+            Execute the <see cref="P:System.Data.Common.DbCommand.CommandText"/> against the
+            <see cref="P:System.Data.Common.DbCommand.Connection"/>, and return the single data of result.
+            If the result contains more than one data, an
+            <see cref="T:System.InvalidOperationException"/> will be throw.
+            The cancellation token can be used to request that the operation be abandoned
+            before the command timeout elapses.
+            <para>
+            If the type <typeparamref name="T"/> is class, properties will be mapping to columns
+            by <see cref="P:RyanJuan.Minerva.DbColumnNameAttribute.Name"/>.
+            If multiple properties have the same <see cref="P:RyanJuan.Minerva.DbColumnNameAttribute.Name"/>, then
+            that column will be mapping into multiple properties.
+            For those properties which does not have <see cref="T:RyanJuan.Minerva.DbColumnNameAttribute"/>,
+            property's name will be used.
+            </para>
+            <para>
+            This method will call
+            <see cref="M:RyanJuan.Minerva.Common.MinervaCore.AddWithValues(System.Data.Common.DbParameterCollection,System.Object[])"/>
+            to add parameters into <see cref="P:System.Data.Common.DbCommand.Parameters"/>.
+            </para>
+            </summary>
+            <typeparam name="T">The type of the result.</typeparam>
+            <param name="command">Instance of <see cref="T:System.Data.Common.DbCommand"/>.</param>
+            <param name="cancellationToken">
+            The token to monitor for cancellation requests.
+            </param>
+            <param name="parameters">The objects which use to construct parameter.</param>
+            <returns>Enumerable of results.</returns>
+            <exception cref="T:System.ArgumentNullException">
+            Parameter <paramref name="command"/> is null.
+            </exception>
+            <exception cref="T:System.ArgumentException">
+            <see cref="T:System.Data.DbType"/> of parameter is not valid.
+            </exception>
+            <exception cref="T:System.InvalidOperationException">
+            The data contains more than one row.
+            </exception>
+        </member>
+        <member name="M:RyanJuan.Minerva.Common.MinervaCore.FetchSingleOrDefault``1(System.Data.Common.DbCommand,System.Object[])">
+            <summary>
+            Execute the <see cref="P:System.Data.Common.DbCommand.CommandText"/> against the
+            <see cref="P:System.Data.Common.DbCommand.Connection"/>, and return the single data of result.
+            If the result contains more than one data, an
+            <see cref="T:System.InvalidOperationException"/> will be throw.
+            <para>
+            If the type <typeparamref name="T"/> is class, properties will be mapping to columns
+            by <see cref="P:RyanJuan.Minerva.DbColumnNameAttribute.Name"/>.
+            If multiple properties have the same <see cref="P:RyanJuan.Minerva.DbColumnNameAttribute.Name"/>, then
+            that column will be mapping into multiple properties.
+            For those properties which does not have <see cref="T:RyanJuan.Minerva.DbColumnNameAttribute"/>,
+            property's name will be used.
+            </para>
+            <para>
+            This method will call
+            <see cref="M:RyanJuan.Minerva.Common.MinervaCore.AddWithValues(System.Data.Common.DbParameterCollection,System.Object[])"/>
+            to add parameters into <see cref="P:System.Data.Common.DbCommand.Parameters"/>.
+            </para>
+            </summary>
+            <typeparam name="T">The type of the result.</typeparam>
+            <param name="command">Instance of <see cref="T:System.Data.Common.DbCommand"/>.</param>
+            <param name="parameters">The objects which use to construct parameter.</param>
+            <returns>Enumerable of results.</returns>
+            <exception cref="T:System.ArgumentNullException">
+            Parameter <paramref name="command"/> is null.
+            </exception>
+            <exception cref="T:System.ArgumentException">
+            <see cref="T:System.Data.DbType"/> of parameter is not valid.
+            </exception>
+            <exception cref="T:System.InvalidOperationException">
+            The data contains more than one row.
+            </exception>
+        </member>
+        <member name="M:RyanJuan.Minerva.Common.MinervaCore.FetchSingleOrDefaultAsync``1(System.Data.Common.DbCommand,System.Threading.CancellationToken,System.Object[])">
+            <summary>
+            This is the asynchronous version of
+            <see cref="M:RyanJuan.Minerva.Common.MinervaCore.FetchSingleOrDefault``1(System.Data.Common.DbCommand,System.Object[])"/>.
+            Execute the <see cref="P:System.Data.Common.DbCommand.CommandText"/> against the
+            <see cref="P:System.Data.Common.DbCommand.Connection"/>, and return the single data of result.
+            If the result contains more than one data, an
+            <see cref="T:System.InvalidOperationException"/> will be throw.
+            The cancellation token can be used to request that the operation be abandoned
+            before the command timeout elapses.
+            <para>
+            If the type <typeparamref name="T"/> is class, properties will be mapping to columns
+            by <see cref="P:RyanJuan.Minerva.DbColumnNameAttribute.Name"/>.
+            If multiple properties have the same <see cref="P:RyanJuan.Minerva.DbColumnNameAttribute.Name"/>, then
+            that column will be mapping into multiple properties.
+            For those properties which does not have <see cref="T:RyanJuan.Minerva.DbColumnNameAttribute"/>,
+            property's name will be used.
+            </para>
+            <para>
+            This method will call
+            <see cref="M:RyanJuan.Minerva.Common.MinervaCore.AddWithValues(System.Data.Common.DbParameterCollection,System.Object[])"/>
+            to add parameters into <see cref="P:System.Data.Common.DbCommand.Parameters"/>.
+            </para>
+            </summary>
+            <typeparam name="T">The type of the result.</typeparam>
+            <param name="command">Instance of <see cref="T:System.Data.Common.DbCommand"/>.</param>
+            <param name="cancellationToken">
+            The token to monitor for cancellation requests.
+            </param>
+            <param name="parameters">The objects which use to construct parameter.</param>
+            <returns>Enumerable of results.</returns>
+            <exception cref="T:System.ArgumentNullException">
+            Parameter <paramref name="command"/> is null.
+            </exception>
+            <exception cref="T:System.ArgumentException">
+            <see cref="T:System.Data.DbType"/> of parameter is not valid.
+            </exception>
+            <exception cref="T:System.InvalidOperationException">
+            The data contains more than one row.
+            </exception>
+        </member>
+        <member name="M:RyanJuan.Minerva.Common.MinervaCore.#ctor(System.Data.Common.DbProviderFactory)">
+            <summary>
+            
+            </summary>
+            <param name="factory"></param>
+        </member>
+        <member name="M:RyanJuan.Minerva.Common.MinervaCore.GetValidDbTypes">
+            <summary>
+            Gets all <see cref="T:System.Data.DbType"/> which is valid for implement of
+            <see cref="T:System.Data.Common.DbParameter"/>..
+            </summary>
+            <returns>Enumerable of all valid <see cref="T:System.Data.DbType"/>.</returns>
+        </member>
+        <member name="M:RyanJuan.Minerva.Common.MinervaCore.GetDBType(System.Type,System.Data.DbType)">
+            <summary>
+            Gets the corresponding <see cref="T:System.Data.DbType"/> from <see cref="T:System.Type"/>.
+            If none of the <see cref="T:System.Data.DbType"/> is match, <paramref name="defaultDbType"/>
+            will be returned (default value is <see cref="F:System.Data.DbType.String"/>).
+            </summary>
+            <param name="type">Specified <see cref="T:System.Type"/>.</param>
+            <param name="defaultDbType">(Optional) Default <see cref="T:System.Data.DbType"/>.</param>
+            <returns>The corresponding <see cref="T:System.Data.DbType"/>.</returns>
+        </member>
+        <member name="M:RyanJuan.Minerva.Common.MinervaCore.SetDefaultFetchMode(RyanJuan.Minerva.FetchMode)">
+            <summary>
+            
+            </summary>
+            <param name="fetchMode"></param>
+        </member>
+        <member name="M:RyanJuan.Minerva.Common.MinervaCore.OpenConnection(System.String)">
+            <summary>
+            
+            </summary>
+            <param name="connectionString"></param>
+            <returns></returns>
+        </member>
+        <member name="M:RyanJuan.Minerva.Common.MinervaCore.OpenConnectionAsync(System.String,System.Threading.CancellationToken)">
+            <summary>
+            
+            </summary>
+            <param name="connectionString"></param>
+            <param name="cancellationToken"></param>
+            <returns></returns>
+        </member>
+        <member name="T:RyanJuan.Minerva.FetchMode">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="F:RyanJuan.Minerva.FetchMode.Default">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="F:RyanJuan.Minerva.FetchMode.Buffer">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="F:RyanJuan.Minerva.FetchMode.Stream">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="F:RyanJuan.Minerva.FetchMode.Hybrid">
+            <summary>
+            
+            </summary>
+        </member>
+    </members>
+</doc>

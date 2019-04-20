@@ -1,0 +1,968 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>RyanJuan.Minerva.SqlClient</name>
+    </assembly>
+    <members>
+        <member name="T:RyanJuan.Minerva.SqlClientHelper.MinervaSqlClient">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="M:RyanJuan.Minerva.SqlClientHelper.MinervaSqlClient.AddWithValues(System.Data.SqlClient.SqlParameterCollection,System.Object[])">
+            <summary>
+            以傳入物件中的屬性建立對映的資料庫參數 <see cref="T:System.Data.SqlClient.SqlParameter"/> 物件，
+            並存入 <see cref="T:System.Data.SqlClient.SqlParameterCollection"/> 之中。
+            <para>
+            在建立 <see cref="T:System.Data.SqlClient.SqlParameter"/> 物件時，參數的名稱會自動從物件的屬性取得。
+            物件屬性若有設定 <see cref="T:RyanJuan.Minerva.DbParameterNameAttribute"/> 時，會以此參數名稱做為對映，
+            若物件屬性有設定多個 <see cref="T:RyanJuan.Minerva.DbParameterNameAttribute"/> 時，
+            會產生對映的複數個 <see cref="T:System.Data.SqlClient.SqlParameter"/> 物件；
+            其次若是物件屬性有設定 <see cref="T:RyanJuan.Minerva.DbColumnNameAttribute"/> 且
+            <see cref="P:RyanJuan.Minerva.DbColumnNameAttribute.UseAsParameter"/> 值設為 <see langword="true"/> 時，
+            會以欄位名稱 <see cref="P:RyanJuan.Minerva.DbColumnNameAttribute.Name"/> 作為參數名稱建立額外的
+            <see cref="T:System.Data.SqlClient.SqlParameter"/> 物件；
+            若是上述屬性都沒有設定，則會使用屬性名稱做為參數名稱。
+            </para>
+            <para>
+            如果參數名稱已經存在於 <see cref="T:System.Data.SqlClient.SqlParameterCollection"/> 物件之中，
+            則該屬性會被忽略，保留已經存在 <see cref="T:System.Data.SqlClient.SqlParameterCollection"/> 中的參數。
+            </para>
+            <para>
+            建立 <see cref="T:System.Data.SqlClient.SqlParameter"/> 物件後，在存入值之前會先設定參數型別。
+            物件屬性若有設定 <see cref="T:RyanJuan.Minerva.DbTypeAttribute"/> 時，會以此設定的型別做為參數型別，
+            否則會以該屬性的宣告型別所對應的資料庫型別做為參數型別。
+            </para>
+            <para>
+            如果設定的參數型別不合法，則會拋出 <see cref="T:System.ArgumentException"/>。
+            </para>
+            </summary>
+            <param name="collection"><see cref="T:System.Data.SqlClient.SqlParameterCollection"/> 物件。</param>
+            <param name="parameters">用於 Transact-SQL 陳述式的參數物件。</param>
+            <returns><see cref="T:System.Data.SqlClient.SqlParameterCollection"/> 物件。</returns>
+            <exception cref="T:System.ArgumentException"></exception>
+            <exception cref="T:System.MissingMethodException"></exception>
+        </member>
+        <member name="M:RyanJuan.Minerva.SqlClientHelper.MinervaSqlClient.BeginTransaction(System.Data.SqlClient.SqlConnection,System.Data.SqlClient.SqlCommand)">
+            <summary>
+            使用指定的 <see cref="T:System.Data.SqlClient.SqlCommand"/> 開始資料庫交易。
+            </summary>
+            <param name="connection">資料庫連線。</param>
+            <param name="command">指定的 <see cref="T:System.Data.SqlClient.SqlCommand"/> 物件。</param>
+            <returns>資料庫交易。</returns>
+            <exception cref="T:System.Data.SqlClient.SqlException"></exception>
+            <exception cref="T:System.InvalidOperationException"></exception>
+            <exception cref="T:System.ArgumentNullException"></exception>
+        </member>
+        <member name="M:RyanJuan.Minerva.SqlClientHelper.MinervaSqlClient.BeginTransaction(System.Data.SqlClient.SqlConnection,System.Data.SqlClient.SqlCommand,System.Data.IsolationLevel)">
+            <summary>
+            使用指定的 <see cref="T:System.Data.SqlClient.SqlCommand"/> 與交易層級開始資料庫交易。
+            </summary>
+            <param name="connection">資料庫連線。</param>
+            <param name="command">指定的 <see cref="T:System.Data.SqlClient.SqlCommand"/> 物件。</param>
+            <param name="iso">應該在其下執行交易的隔離等級。</param>
+            <returns>資料庫交易。</returns>
+            <exception cref="T:System.Data.SqlClient.SqlException"></exception>
+            <exception cref="T:System.InvalidOperationException"></exception>
+            <exception cref="T:System.ArgumentNullException"></exception>
+        </member>
+        <member name="M:RyanJuan.Minerva.SqlClientHelper.MinervaSqlClient.BeginTransaction(System.Data.SqlClient.SqlConnection,System.Data.SqlClient.SqlCommand,System.String)">
+            <summary>
+            使用指定的 <see cref="T:System.Data.SqlClient.SqlCommand"/> 與交易名稱開始資料庫交易。
+            </summary>
+            <param name="connection">資料庫連線。</param>
+            <param name="command">指定的 <see cref="T:System.Data.SqlClient.SqlCommand"/> 物件。</param>
+            <param name="transactionName">異動名稱。</param>
+            <returns>資料庫交易。</returns>
+            <exception cref="T:System.Data.SqlClient.SqlException"></exception>
+            <exception cref="T:System.InvalidOperationException"></exception>
+            <exception cref="T:System.ArgumentNullException"></exception>
+        </member>
+        <member name="M:RyanJuan.Minerva.SqlClientHelper.MinervaSqlClient.BeginTransaction(System.Data.SqlClient.SqlConnection,System.Data.SqlClient.SqlCommand,System.Data.IsolationLevel,System.String)">
+            <summary>
+            使用指定的 <see cref="T:System.Data.SqlClient.SqlCommand"/>、交易層級與交易名稱開始資料庫交易。
+            </summary>
+            <param name="connection">資料庫連線。</param>
+            <param name="command">指定的 <see cref="T:System.Data.SqlClient.SqlCommand"/> 物件。</param>
+            <param name="iso">應該在其下執行交易的隔離等級。</param>
+            <param name="transactionName">異動名稱。</param>
+            <returns>資料庫交易。</returns>
+            <exception cref="T:System.Data.SqlClient.SqlException"></exception>
+            <exception cref="T:System.InvalidOperationException"></exception>
+            <exception cref="T:System.ArgumentNullException"></exception>
+        </member>
+        <member name="M:RyanJuan.Minerva.SqlClientHelper.MinervaSqlClient.Execute(System.Data.SqlClient.SqlCommand,System.Object[])">
+            <summary>
+            針對連接執行 Transact-SQL 陳述式，並傳回受影響的資料列數目。
+            <para>
+            會以 <see cref="P:System.Data.SqlClient.SqlCommand.Parameters"/> 呼叫
+            <see cref="M:RyanJuan.Minerva.SqlClientHelper.MinervaSqlClient.AddWithValues(System.Data.SqlClient.SqlParameterCollection,System.Object[])"/> 以存入參數。
+            </para>
+            </summary>
+            <param name="command"><see cref="T:System.Data.SqlClient.SqlCommand"/> 物件。</param>
+            <param name="parameters">用於 Transact-SQL 陳述式的參數物件。</param>
+            <returns>受影響的資料列數目。</returns>
+            <exception cref="T:System.ArgumentNullException"></exception>
+            <exception cref="T:System.ArgumentException"></exception>
+            <exception cref="T:System.InvalidCastException"></exception>
+            <exception cref="T:System.Data.SqlClient.SqlException"></exception>
+            <exception cref="T:System.IO.IOException"></exception>
+            <exception cref="T:System.InvalidOperationException"></exception>
+            <exception cref="T:System.ObjectDisposedException"></exception>
+        </member>
+        <member name="M:RyanJuan.Minerva.SqlClientHelper.MinervaSqlClient.ExecuteAsync(System.Data.SqlClient.SqlCommand,System.Object[])">
+            <summary>
+            非同步版本的 <see cref="M:RyanJuan.Minerva.SqlClientHelper.MinervaSqlClient.Execute(System.Data.SqlClient.SqlCommand,System.Object[])"/>。
+            針對連接執行 Transact-SQL 陳述式，並傳回受影響的資料列數目。
+            <para>
+            會以 <see cref="P:System.Data.SqlClient.SqlCommand.Parameters"/> 呼叫
+            <see cref="M:RyanJuan.Minerva.SqlClientHelper.MinervaSqlClient.AddWithValues(System.Data.SqlClient.SqlParameterCollection,System.Object[])"/> 以存入參數。
+            </para>
+            </summary>
+            <param name="command"><see cref="T:System.Data.SqlClient.SqlCommand"/> 物件。</param>
+            <param name="parameters">用於 Transact-SQL 陳述式的參數物件。</param>
+            <returns>受影響的資料列數目。</returns>
+            <exception cref="T:System.ArgumentNullException"></exception>
+            <exception cref="T:System.ArgumentException"></exception>
+            <exception cref="T:System.InvalidCastException"></exception>
+            <exception cref="T:System.Data.SqlClient.SqlException"></exception>
+            <exception cref="T:System.IO.IOException"></exception>
+            <exception cref="T:System.InvalidOperationException"></exception>
+            <exception cref="T:System.ObjectDisposedException"></exception>
+        </member>
+        <member name="M:RyanJuan.Minerva.SqlClientHelper.MinervaSqlClient.ExecuteAsync(System.Data.SqlClient.SqlCommand,System.Threading.CancellationToken,System.Object[])">
+            <summary>
+            非同步版本的 <see cref="M:RyanJuan.Minerva.SqlClientHelper.MinervaSqlClient.Execute(System.Data.SqlClient.SqlCommand,System.Object[])"/>。
+            針對連接執行 Transact-SQL 陳述式，並傳回受影響的資料列數目。
+            取消語彙基元可用於要求在命令逾時之前取消作業。
+            <para>
+            會以 <see cref="P:System.Data.SqlClient.SqlCommand.Parameters"/> 呼叫
+            <see cref="M:RyanJuan.Minerva.SqlClientHelper.MinervaSqlClient.AddWithValues(System.Data.SqlClient.SqlParameterCollection,System.Object[])"/> 以存入參數。
+            </para>
+            </summary>
+            <param name="command"><see cref="T:System.Data.SqlClient.SqlCommand"/> 物件。</param>
+            <param name="cancellationToken">取消指令。</param>
+            <param name="parameters">用於 Transact-SQL 陳述式的參數物件。</param>
+            <returns>受影響的資料列數目。</returns>
+            <exception cref="T:System.ArgumentNullException"></exception>
+            <exception cref="T:System.ArgumentException"></exception>
+            <exception cref="T:System.InvalidCastException"></exception>
+            <exception cref="T:System.Data.SqlClient.SqlException"></exception>
+            <exception cref="T:System.IO.IOException"></exception>
+            <exception cref="T:System.InvalidOperationException"></exception>
+            <exception cref="T:System.ObjectDisposedException"></exception>
+        </member>
+        <member name="M:RyanJuan.Minerva.SqlClientHelper.MinervaSqlClient.FetchData``1(System.Data.SqlClient.SqlCommand,System.Object[])">
+            <summary>
+            執行查詢，並傳回查詢所傳回的結果集序列。
+            <para>
+            查詢結果的資料型別若為一般值型別，會直接以值回傳序列。
+            型別若為物件，則會以查詢結果集的資料欄位名稱，對映物件中可寫入的屬性。
+            物件屬性若有設定 <see cref="T:RyanJuan.Minerva.DbColumnNameAttribute"/> 時，會以此欄位名稱做為對映，
+            若有多個屬性都有設定相同名稱的 <see cref="T:RyanJuan.Minerva.DbColumnNameAttribute"/>，
+            則單一欄位會對映到複數物件屬性。
+            如果沒有符合的 <see cref="T:RyanJuan.Minerva.DbColumnNameAttribute"/>，則會使用屬性名稱對映。
+            </para>
+            <para>
+            會以 <see cref="P:System.Data.SqlClient.SqlCommand.Parameters"/> 呼叫
+            <see cref="M:RyanJuan.Minerva.SqlClientHelper.MinervaSqlClient.AddWithValues(System.Data.SqlClient.SqlParameterCollection,System.Object[])"/> 以存入參數。
+            </para>
+            </summary>
+            <typeparam name="T">查詢結果的資料型別。</typeparam>
+            <param name="command"><see cref="T:System.Data.SqlClient.SqlCommand"/> 物件。</param>
+            <param name="parameters">用於查詢的參數物件。</param>
+            <returns>查詢結果序列。</returns>
+            <exception cref="T:System.ArgumentNullException"></exception>
+            <exception cref="T:System.ArgumentException"></exception>
+            <exception cref="T:System.MissingMethodException"></exception>
+            <exception cref="T:System.InvalidCastException"></exception>
+            <exception cref="T:System.Data.SqlClient.SqlException"></exception>
+            <exception cref="T:System.IO.IOException"></exception>
+            <exception cref="T:System.InvalidOperationException"></exception>
+            <exception cref="T:System.ObjectDisposedException"></exception>
+        </member>
+        <member name="M:RyanJuan.Minerva.SqlClientHelper.MinervaSqlClient.FetchData``1(System.Data.SqlClient.SqlCommand,System.Data.CommandBehavior,System.Object[])">
+            <summary>
+            執行查詢，並傳回查詢所傳回的結果集序列。
+            <para>
+            查詢結果的資料型別若為一般值型別，會直接以值回傳序列。
+            型別若為物件，則會以查詢結果集的資料欄位名稱，對映物件中可寫入的屬性。
+            物件屬性若有設定 <see cref="T:RyanJuan.Minerva.DbColumnNameAttribute"/> 時，會以此欄位名稱做為對映，
+            若有多個屬性都有設定相同名稱的 <see cref="T:RyanJuan.Minerva.DbColumnNameAttribute"/>，
+            則單一欄位會對映到複數物件屬性。
+            如果沒有符合的 <see cref="T:RyanJuan.Minerva.DbColumnNameAttribute"/>，則會使用屬性名稱對映。
+            </para>
+            <para>
+            會以 <see cref="P:System.Data.SqlClient.SqlCommand.Parameters"/> 呼叫
+            <see cref="M:RyanJuan.Minerva.SqlClientHelper.MinervaSqlClient.AddWithValues(System.Data.SqlClient.SqlParameterCollection,System.Object[])"/> 以存入參數。
+            </para>
+            </summary>
+            <typeparam name="T">查詢結果的資料型別。</typeparam>
+            <param name="command"><see cref="T:System.Data.SqlClient.SqlCommand"/> 物件。</param>
+            <param name="behavior"></param>
+            <param name="parameters">用於查詢的參數物件。</param>
+            <returns>查詢結果序列。</returns>
+            <exception cref="T:System.ArgumentNullException"></exception>
+            <exception cref="T:System.ArgumentException"></exception>
+            <exception cref="T:System.MissingMethodException"></exception>
+            <exception cref="T:System.InvalidCastException"></exception>
+            <exception cref="T:System.Data.SqlClient.SqlException"></exception>
+            <exception cref="T:System.IO.IOException"></exception>
+            <exception cref="T:System.InvalidOperationException"></exception>
+            <exception cref="T:System.ObjectDisposedException"></exception>
+        </member>
+        <member name="M:RyanJuan.Minerva.SqlClientHelper.MinervaSqlClient.FetchData``1(System.Data.SqlClient.SqlCommand,RyanJuan.Minerva.FetchMode,System.Object[])">
+            <summary>
+            執行查詢，並傳回查詢所傳回的結果集序列。
+            <para>
+            查詢結果的資料型別若為一般值型別，會直接以值回傳序列。
+            型別若為物件，則會以查詢結果集的資料欄位名稱，對映物件中可寫入的屬性。
+            物件屬性若有設定 <see cref="T:RyanJuan.Minerva.DbColumnNameAttribute"/> 時，會以此欄位名稱做為對映，
+            若有多個屬性都有設定相同名稱的 <see cref="T:RyanJuan.Minerva.DbColumnNameAttribute"/>，
+            則單一欄位會對映到複數物件屬性。
+            如果沒有符合的 <see cref="T:RyanJuan.Minerva.DbColumnNameAttribute"/>，則會使用屬性名稱對映。
+            </para>
+            <para>
+            會以 <see cref="P:System.Data.SqlClient.SqlCommand.Parameters"/> 呼叫
+            <see cref="M:RyanJuan.Minerva.SqlClientHelper.MinervaSqlClient.AddWithValues(System.Data.SqlClient.SqlParameterCollection,System.Object[])"/> 以存入參數。
+            </para>
+            </summary>
+            <typeparam name="T">查詢結果的資料型別。</typeparam>
+            <param name="command"><see cref="T:System.Data.SqlClient.SqlCommand"/> 物件。</param>
+            <param name="fetchMode"></param>
+            <param name="parameters">用於查詢的參數物件。</param>
+            <returns>查詢結果序列。</returns>
+            <exception cref="T:System.ArgumentNullException"></exception>
+            <exception cref="T:System.ArgumentException"></exception>
+            <exception cref="T:System.MissingMethodException"></exception>
+            <exception cref="T:System.InvalidCastException"></exception>
+            <exception cref="T:System.Data.SqlClient.SqlException"></exception>
+            <exception cref="T:System.IO.IOException"></exception>
+            <exception cref="T:System.InvalidOperationException"></exception>
+            <exception cref="T:System.ObjectDisposedException"></exception>
+        </member>
+        <member name="M:RyanJuan.Minerva.SqlClientHelper.MinervaSqlClient.FetchData``1(System.Data.SqlClient.SqlCommand,System.Data.CommandBehavior,RyanJuan.Minerva.FetchMode,System.Object[])">
+            <summary>
+            執行查詢，並傳回查詢所傳回的結果集序列。
+            <para>
+            查詢結果的資料型別若為一般值型別，會直接以值回傳序列。
+            型別若為物件，則會以查詢結果集的資料欄位名稱，對映物件中可寫入的屬性。
+            物件屬性若有設定 <see cref="T:RyanJuan.Minerva.DbColumnNameAttribute"/> 時，會以此欄位名稱做為對映，
+            若有多個屬性都有設定相同名稱的 <see cref="T:RyanJuan.Minerva.DbColumnNameAttribute"/>，
+            則單一欄位會對映到複數物件屬性。
+            如果沒有符合的 <see cref="T:RyanJuan.Minerva.DbColumnNameAttribute"/>，則會使用屬性名稱對映。
+            </para>
+            <para>
+            會以 <see cref="P:System.Data.SqlClient.SqlCommand.Parameters"/> 呼叫
+            <see cref="M:RyanJuan.Minerva.SqlClientHelper.MinervaSqlClient.AddWithValues(System.Data.SqlClient.SqlParameterCollection,System.Object[])"/> 以存入參數。
+            </para>
+            </summary>
+            <typeparam name="T">查詢結果的資料型別。</typeparam>
+            <param name="command"><see cref="T:System.Data.SqlClient.SqlCommand"/> 物件。</param>
+            <param name="behavior">其中一個 <see cref="T:System.Data.CommandBehavior"/> 值。</param>
+            <param name="fetchMode"></param>
+            <param name="parameters">用於查詢的參數物件。</param>
+            <returns>查詢結果序列。</returns>
+            <exception cref="T:System.ArgumentNullException"></exception>
+            <exception cref="T:System.ArgumentException"></exception>
+            <exception cref="T:System.MissingMethodException"></exception>
+            <exception cref="T:System.InvalidCastException"></exception>
+            <exception cref="T:System.Data.SqlClient.SqlException"></exception>
+            <exception cref="T:System.IO.IOException"></exception>
+            <exception cref="T:System.InvalidOperationException"></exception>
+            <exception cref="T:System.ObjectDisposedException"></exception>
+        </member>
+        <member name="M:RyanJuan.Minerva.SqlClientHelper.MinervaSqlClient.FetchDataAsync``1(System.Data.SqlClient.SqlCommand,System.Object[])">
+            <summary>
+            非同步版本的 <see cref="M:RyanJuan.Minerva.SqlClientHelper.MinervaSqlClient.FetchData``1(System.Data.SqlClient.SqlCommand,System.Object[])"/>。
+            執行查詢，並傳回查詢所傳回的結果集序列。
+            <para>
+            查詢結果的資料型別若為一般值型別，會直接以值回傳序列。
+            型別若為物件，則會以查詢結果集的資料欄位名稱，對映物件中可寫入的屬性。
+            物件屬性若有設定 <see cref="T:RyanJuan.Minerva.DbColumnNameAttribute"/> 時，會以此欄位名稱做為對映，
+            若有多個屬性都有設定相同名稱的 <see cref="T:RyanJuan.Minerva.DbColumnNameAttribute"/>，
+            則單一欄位會對映到複數物件屬性。
+            如果沒有符合的 <see cref="T:RyanJuan.Minerva.DbColumnNameAttribute"/>，則會使用屬性名稱對映。
+            <para>
+            會以 <see cref="P:System.Data.SqlClient.SqlCommand.Parameters"/> 呼叫
+            <see cref="M:RyanJuan.Minerva.SqlClientHelper.MinervaSqlClient.AddWithValues(System.Data.SqlClient.SqlParameterCollection,System.Object[])"/> 以存入參數。
+            </para>
+            </para>
+            </summary>
+            <typeparam name="T">查詢結果的資料型別。</typeparam>
+            <param name="command"><see cref="T:System.Data.SqlClient.SqlCommand"/> 物件。</param>
+            <param name="parameters">用於查詢的參數物件。</param>
+            <returns>查詢結果序列。</returns>
+            <exception cref="T:System.ArgumentNullException"></exception>
+            <exception cref="T:System.ArgumentException"></exception>
+            <exception cref="T:System.MissingMethodException"></exception>
+            <exception cref="T:System.InvalidCastException"></exception>
+            <exception cref="T:System.Data.SqlClient.SqlException"></exception>
+            <exception cref="T:System.IO.IOException"></exception>
+            <exception cref="T:System.InvalidOperationException"></exception>
+            <exception cref="T:System.ObjectDisposedException"></exception>
+        </member>
+        <member name="M:RyanJuan.Minerva.SqlClientHelper.MinervaSqlClient.FetchDataAsync``1(System.Data.SqlClient.SqlCommand,System.Data.CommandBehavior,System.Object[])">
+            <summary>
+            非同步版本的 <see cref="M:RyanJuan.Minerva.SqlClientHelper.MinervaSqlClient.FetchData``1(System.Data.SqlClient.SqlCommand,System.Object[])"/>。
+            執行查詢，並傳回查詢所傳回的結果集序列。
+            <para>
+            查詢結果的資料型別若為一般值型別，會直接以值回傳序列。
+            型別若為物件，則會以查詢結果集的資料欄位名稱，對映物件中可寫入的屬性。
+            物件屬性若有設定 <see cref="T:RyanJuan.Minerva.DbColumnNameAttribute"/> 時，會以此欄位名稱做為對映，
+            若有多個屬性都有設定相同名稱的 <see cref="T:RyanJuan.Minerva.DbColumnNameAttribute"/>，
+            則單一欄位會對映到複數物件屬性。
+            如果沒有符合的 <see cref="T:RyanJuan.Minerva.DbColumnNameAttribute"/>，則會使用屬性名稱對映。
+            <para>
+            會以 <see cref="P:System.Data.SqlClient.SqlCommand.Parameters"/> 呼叫
+            <see cref="M:RyanJuan.Minerva.SqlClientHelper.MinervaSqlClient.AddWithValues(System.Data.SqlClient.SqlParameterCollection,System.Object[])"/> 以存入參數。
+            </para>
+            </para>
+            </summary>
+            <typeparam name="T">查詢結果的資料型別。</typeparam>
+            <param name="command"><see cref="T:System.Data.SqlClient.SqlCommand"/> 物件。</param>
+            <param name="behavior">其中一個 <see cref="T:System.Data.CommandBehavior"/> 值。</param>
+            <param name="parameters">用於查詢的參數物件。</param>
+            <returns>查詢結果序列。</returns>
+            <exception cref="T:System.ArgumentNullException"></exception>
+            <exception cref="T:System.ArgumentException"></exception>
+            <exception cref="T:System.MissingMethodException"></exception>
+            <exception cref="T:System.InvalidCastException"></exception>
+            <exception cref="T:System.Data.SqlClient.SqlException"></exception>
+            <exception cref="T:System.IO.IOException"></exception>
+            <exception cref="T:System.InvalidOperationException"></exception>
+            <exception cref="T:System.ObjectDisposedException"></exception>
+        </member>
+        <member name="M:RyanJuan.Minerva.SqlClientHelper.MinervaSqlClient.FetchDataAsync``1(System.Data.SqlClient.SqlCommand,RyanJuan.Minerva.FetchMode,System.Object[])">
+            <summary>
+            非同步版本的 <see cref="M:RyanJuan.Minerva.SqlClientHelper.MinervaSqlClient.FetchData``1(System.Data.SqlClient.SqlCommand,System.Object[])"/>。
+            執行查詢，並傳回查詢所傳回的結果集序列。
+            <para>
+            查詢結果的資料型別若為一般值型別，會直接以值回傳序列。
+            型別若為物件，則會以查詢結果集的資料欄位名稱，對映物件中可寫入的屬性。
+            物件屬性若有設定 <see cref="T:RyanJuan.Minerva.DbColumnNameAttribute"/> 時，會以此欄位名稱做為對映，
+            若有多個屬性都有設定相同名稱的 <see cref="T:RyanJuan.Minerva.DbColumnNameAttribute"/>，
+            則單一欄位會對映到複數物件屬性。
+            如果沒有符合的 <see cref="T:RyanJuan.Minerva.DbColumnNameAttribute"/>，則會使用屬性名稱對映。
+            <para>
+            會以 <see cref="P:System.Data.SqlClient.SqlCommand.Parameters"/> 呼叫
+            <see cref="M:RyanJuan.Minerva.SqlClientHelper.MinervaSqlClient.AddWithValues(System.Data.SqlClient.SqlParameterCollection,System.Object[])"/> 以存入參數。
+            </para>
+            </para>
+            </summary>
+            <typeparam name="T">查詢結果的資料型別。</typeparam>
+            <param name="command"><see cref="T:System.Data.SqlClient.SqlCommand"/> 物件。</param>
+            <param name="fetchMode"></param>
+            <param name="parameters">用於查詢的參數物件。</param>
+            <returns>查詢結果序列。</returns>
+            <exception cref="T:System.ArgumentNullException"></exception>
+            <exception cref="T:System.ArgumentException"></exception>
+            <exception cref="T:System.MissingMethodException"></exception>
+            <exception cref="T:System.InvalidCastException"></exception>
+            <exception cref="T:System.Data.SqlClient.SqlException"></exception>
+            <exception cref="T:System.IO.IOException"></exception>
+            <exception cref="T:System.InvalidOperationException"></exception>
+            <exception cref="T:System.ObjectDisposedException"></exception>
+        </member>
+        <member name="M:RyanJuan.Minerva.SqlClientHelper.MinervaSqlClient.FetchDataAsync``1(System.Data.SqlClient.SqlCommand,System.Data.CommandBehavior,RyanJuan.Minerva.FetchMode,System.Object[])">
+            <summary>
+            非同步版本的 <see cref="M:RyanJuan.Minerva.SqlClientHelper.MinervaSqlClient.FetchData``1(System.Data.SqlClient.SqlCommand,System.Object[])"/>。
+            執行查詢，並傳回查詢所傳回的結果集序列。
+            <para>
+            查詢結果的資料型別若為一般值型別，會直接以值回傳序列。
+            型別若為物件，則會以查詢結果集的資料欄位名稱，對映物件中可寫入的屬性。
+            物件屬性若有設定 <see cref="T:RyanJuan.Minerva.DbColumnNameAttribute"/> 時，會以此欄位名稱做為對映，
+            若有多個屬性都有設定相同名稱的 <see cref="T:RyanJuan.Minerva.DbColumnNameAttribute"/>，
+            則單一欄位會對映到複數物件屬性。
+            如果沒有符合的 <see cref="T:RyanJuan.Minerva.DbColumnNameAttribute"/>，則會使用屬性名稱對映。
+            <para>
+            會以 <see cref="P:System.Data.SqlClient.SqlCommand.Parameters"/> 呼叫
+            <see cref="M:RyanJuan.Minerva.SqlClientHelper.MinervaSqlClient.AddWithValues(System.Data.SqlClient.SqlParameterCollection,System.Object[])"/> 以存入參數。
+            </para>
+            </para>
+            </summary>
+            <typeparam name="T">查詢結果的資料型別。</typeparam>
+            <param name="command"><see cref="T:System.Data.SqlClient.SqlCommand"/> 物件。</param>
+            <param name="behavior">其中一個 <see cref="T:System.Data.CommandBehavior"/> 值。</param>
+            <param name="fetchMode"></param>
+            <param name="parameters">用於查詢的參數物件。</param>
+            <returns>查詢結果序列。</returns>
+            <exception cref="T:System.ArgumentNullException"></exception>
+            <exception cref="T:System.ArgumentException"></exception>
+            <exception cref="T:System.MissingMethodException"></exception>
+            <exception cref="T:System.InvalidCastException"></exception>
+            <exception cref="T:System.Data.SqlClient.SqlException"></exception>
+            <exception cref="T:System.IO.IOException"></exception>
+            <exception cref="T:System.InvalidOperationException"></exception>
+            <exception cref="T:System.ObjectDisposedException"></exception>
+        </member>
+        <member name="M:RyanJuan.Minerva.SqlClientHelper.MinervaSqlClient.FetchDataAsync``1(System.Data.SqlClient.SqlCommand,System.Threading.CancellationToken,System.Object[])">
+            <summary>
+            非同步版本的 <see cref="M:RyanJuan.Minerva.SqlClientHelper.MinervaSqlClient.FetchData``1(System.Data.SqlClient.SqlCommand,System.Object[])"/>。
+            執行查詢，並傳回查詢所傳回的結果集序列。
+            取消語彙基元可用於要求在命令逾時之前取消作業。
+            <para>
+            查詢結果的資料型別若為一般值型別，會直接以值回傳序列。
+            型別若為物件，則會以查詢結果集的資料欄位名稱，對映物件中可寫入的屬性。
+            物件屬性若有設定 <see cref="T:RyanJuan.Minerva.DbColumnNameAttribute"/> 時，會以此欄位名稱做為對映，
+            若有多個屬性都有設定相同名稱的 <see cref="T:RyanJuan.Minerva.DbColumnNameAttribute"/>，
+            則單一欄位會對映到複數物件屬性。
+            如果沒有符合的 <see cref="T:RyanJuan.Minerva.DbColumnNameAttribute"/>，則會使用屬性名稱對映。
+            <para>
+            會以 <see cref="P:System.Data.SqlClient.SqlCommand.Parameters"/> 呼叫
+            <see cref="M:RyanJuan.Minerva.SqlClientHelper.MinervaSqlClient.AddWithValues(System.Data.SqlClient.SqlParameterCollection,System.Object[])"/> 以存入參數。
+            </para>
+            </para>
+            </summary>
+            <typeparam name="T">查詢結果的資料型別。</typeparam>
+            <param name="command"><see cref="T:System.Data.SqlClient.SqlCommand"/> 物件。</param>
+            <param name="cancellationToken">取消指令。</param>
+            <param name="parameters">用於查詢的參數物件。</param>
+            <returns>查詢結果序列。</returns>
+            <exception cref="T:System.ArgumentNullException"></exception>
+            <exception cref="T:System.ArgumentException"></exception>
+            <exception cref="T:System.MissingMethodException"></exception>
+            <exception cref="T:System.InvalidCastException"></exception>
+            <exception cref="T:System.Data.SqlClient.SqlException"></exception>
+            <exception cref="T:System.IO.IOException"></exception>
+            <exception cref="T:System.InvalidOperationException"></exception>
+            <exception cref="T:System.ObjectDisposedException"></exception>
+        </member>
+        <member name="M:RyanJuan.Minerva.SqlClientHelper.MinervaSqlClient.FetchDataAsync``1(System.Data.SqlClient.SqlCommand,System.Data.CommandBehavior,System.Threading.CancellationToken,System.Object[])">
+            <summary>
+            非同步版本的 <see cref="M:RyanJuan.Minerva.SqlClientHelper.MinervaSqlClient.FetchData``1(System.Data.SqlClient.SqlCommand,System.Object[])"/>。
+            執行查詢，並傳回查詢所傳回的結果集序列。
+            取消語彙基元可用於要求在命令逾時之前取消作業。
+            <para>
+            查詢結果的資料型別若為一般值型別，會直接以值回傳序列。
+            型別若為物件，則會以查詢結果集的資料欄位名稱，對映物件中可寫入的屬性。
+            物件屬性若有設定 <see cref="T:RyanJuan.Minerva.DbColumnNameAttribute"/> 時，會以此欄位名稱做為對映，
+            若有多個屬性都有設定相同名稱的 <see cref="T:RyanJuan.Minerva.DbColumnNameAttribute"/>，
+            則單一欄位會對映到複數物件屬性。
+            如果沒有符合的 <see cref="T:RyanJuan.Minerva.DbColumnNameAttribute"/>，則會使用屬性名稱對映。
+            <para>
+            會以 <see cref="P:System.Data.SqlClient.SqlCommand.Parameters"/> 呼叫
+            <see cref="M:RyanJuan.Minerva.SqlClientHelper.MinervaSqlClient.AddWithValues(System.Data.SqlClient.SqlParameterCollection,System.Object[])"/> 以存入參數。
+            </para>
+            </para>
+            </summary>
+            <typeparam name="T">查詢結果的資料型別。</typeparam>
+            <param name="command"><see cref="T:System.Data.SqlClient.SqlCommand"/> 物件。</param>
+            <param name="behavior"></param>
+            <param name="cancellationToken">取消指令。</param>
+            <param name="parameters">用於查詢的參數物件。</param>
+            <returns>查詢結果序列。</returns>
+            <exception cref="T:System.ArgumentNullException"></exception>
+            <exception cref="T:System.ArgumentException"></exception>
+            <exception cref="T:System.MissingMethodException"></exception>
+            <exception cref="T:System.InvalidCastException"></exception>
+            <exception cref="T:System.Data.SqlClient.SqlException"></exception>
+            <exception cref="T:System.IO.IOException"></exception>
+            <exception cref="T:System.InvalidOperationException"></exception>
+            <exception cref="T:System.ObjectDisposedException"></exception>
+        </member>
+        <member name="M:RyanJuan.Minerva.SqlClientHelper.MinervaSqlClient.FetchDataAsync``1(System.Data.SqlClient.SqlCommand,RyanJuan.Minerva.FetchMode,System.Threading.CancellationToken,System.Object[])">
+            <summary>
+            非同步版本的 <see cref="M:RyanJuan.Minerva.SqlClientHelper.MinervaSqlClient.FetchData``1(System.Data.SqlClient.SqlCommand,System.Object[])"/>。
+            執行查詢，並傳回查詢所傳回的結果集序列。
+            取消語彙基元可用於要求在命令逾時之前取消作業。
+            <para>
+            查詢結果的資料型別若為一般值型別，會直接以值回傳序列。
+            型別若為物件，則會以查詢結果集的資料欄位名稱，對映物件中可寫入的屬性。
+            物件屬性若有設定 <see cref="T:RyanJuan.Minerva.DbColumnNameAttribute"/> 時，會以此欄位名稱做為對映，
+            若有多個屬性都有設定相同名稱的 <see cref="T:RyanJuan.Minerva.DbColumnNameAttribute"/>，
+            則單一欄位會對映到複數物件屬性。
+            如果沒有符合的 <see cref="T:RyanJuan.Minerva.DbColumnNameAttribute"/>，則會使用屬性名稱對映。
+            <para>
+            會以 <see cref="P:System.Data.SqlClient.SqlCommand.Parameters"/> 呼叫
+            <see cref="M:RyanJuan.Minerva.SqlClientHelper.MinervaSqlClient.AddWithValues(System.Data.SqlClient.SqlParameterCollection,System.Object[])"/> 以存入參數。
+            </para>
+            </para>
+            </summary>
+            <typeparam name="T">查詢結果的資料型別。</typeparam>
+            <param name="command"><see cref="T:System.Data.SqlClient.SqlCommand"/> 物件。</param>
+            <param name="fetchMode"></param>
+            <param name="cancellationToken">取消指令。</param>
+            <param name="parameters">用於查詢的參數物件。</param>
+            <returns>查詢結果序列。</returns>
+            <exception cref="T:System.ArgumentNullException"></exception>
+            <exception cref="T:System.ArgumentException"></exception>
+            <exception cref="T:System.MissingMethodException"></exception>
+            <exception cref="T:System.InvalidCastException"></exception>
+            <exception cref="T:System.Data.SqlClient.SqlException"></exception>
+            <exception cref="T:System.IO.IOException"></exception>
+            <exception cref="T:System.InvalidOperationException"></exception>
+            <exception cref="T:System.ObjectDisposedException"></exception>
+        </member>
+        <member name="M:RyanJuan.Minerva.SqlClientHelper.MinervaSqlClient.FetchDataAsync``1(System.Data.SqlClient.SqlCommand,System.Data.CommandBehavior,RyanJuan.Minerva.FetchMode,System.Threading.CancellationToken,System.Object[])">
+            <summary>
+            非同步版本的 <see cref="M:RyanJuan.Minerva.SqlClientHelper.MinervaSqlClient.FetchData``1(System.Data.SqlClient.SqlCommand,System.Object[])"/>。
+            執行查詢，並傳回查詢所傳回的結果集序列。
+            取消語彙基元可用於要求在命令逾時之前取消作業。
+            <para>
+            查詢結果的資料型別若為一般值型別，會直接以值回傳序列。
+            型別若為物件，則會以查詢結果集的資料欄位名稱，對映物件中可寫入的屬性。
+            物件屬性若有設定 <see cref="T:RyanJuan.Minerva.DbColumnNameAttribute"/> 時，會以此欄位名稱做為對映，
+            若有多個屬性都有設定相同名稱的 <see cref="T:RyanJuan.Minerva.DbColumnNameAttribute"/>，
+            則單一欄位會對映到複數物件屬性。
+            如果沒有符合的 <see cref="T:RyanJuan.Minerva.DbColumnNameAttribute"/>，則會使用屬性名稱對映。
+            <para>
+            會以 <see cref="P:System.Data.SqlClient.SqlCommand.Parameters"/> 呼叫
+            <see cref="M:RyanJuan.Minerva.SqlClientHelper.MinervaSqlClient.AddWithValues(System.Data.SqlClient.SqlParameterCollection,System.Object[])"/> 以存入參數。
+            </para>
+            </para>
+            </summary>
+            <typeparam name="T">查詢結果的資料型別。</typeparam>
+            <param name="command"><see cref="T:System.Data.SqlClient.SqlCommand"/> 物件。</param>
+            <param name="behavior">其中一個 <see cref="T:System.Data.CommandBehavior"/> 值。</param>
+            <param name="fetchMode"></param>
+            <param name="cancellationToken">取消指令。</param>
+            <param name="parameters">用於查詢的參數物件。</param>
+            <returns>查詢結果序列。</returns>
+            <exception cref="T:System.ArgumentNullException"></exception>
+            <exception cref="T:System.ArgumentException"></exception>
+            <exception cref="T:System.MissingMethodException"></exception>
+            <exception cref="T:System.InvalidCastException"></exception>
+            <exception cref="T:System.Data.SqlClient.SqlException"></exception>
+            <exception cref="T:System.IO.IOException"></exception>
+            <exception cref="T:System.InvalidOperationException"></exception>
+            <exception cref="T:System.ObjectDisposedException"></exception>
+        </member>
+        <member name="M:RyanJuan.Minerva.SqlClientHelper.MinervaSqlClient.FetchFirst``1(System.Data.SqlClient.SqlCommand,System.Object[])">
+            <summary>
+            執行查詢，並傳回查詢所傳回的結果集中唯一一筆資料，如果沒有資料，則為預設值。
+            如果結果集中有多個項目，則這個方法會擲回例外狀況。
+            <para>
+            會以 <see cref="P:System.Data.SqlClient.SqlCommand.Parameters"/> 呼叫
+            <see cref="M:RyanJuan.Minerva.SqlClientHelper.MinervaSqlClient.AddWithValues(System.Data.SqlClient.SqlParameterCollection,System.Object[])"/> 以存入參數。
+            </para>
+            </summary>
+            <typeparam name="T">查詢結果的資料型別。</typeparam>
+            <param name="command"><see cref="T:System.Data.SqlClient.SqlCommand"/> 物件。</param>
+            <param name="parameters">用於查詢的參數物件。</param>
+            <returns>查詢結果。</returns>
+            <exception cref="T:System.ArgumentNullException"></exception>
+            <exception cref="T:System.ArgumentException"></exception>
+            <exception cref="T:System.InvalidCastException"></exception>
+            <exception cref="T:System.Data.SqlClient.SqlException"></exception>
+            <exception cref="T:System.IO.IOException"></exception>
+            <exception cref="T:System.InvalidOperationException"></exception>
+            <exception cref="T:System.ObjectDisposedException"></exception>
+        </member>
+        <member name="M:RyanJuan.Minerva.SqlClientHelper.MinervaSqlClient.FetchFirstAsync``1(System.Data.SqlClient.SqlCommand,System.Object[])">
+            <summary>
+            非同步版本的 <see cref="M:RyanJuan.Minerva.SqlClientHelper.MinervaSqlClient.FetchFirst``1(System.Data.SqlClient.SqlCommand,System.Object[])"/>。
+            執行查詢，並傳回查詢所傳回的結果集中唯一一筆資料，如果沒有資料，則為預設值。
+            如果結果集中有多個項目，則這個方法會擲回例外狀況。
+            <para>
+            會以 <see cref="P:System.Data.SqlClient.SqlCommand.Parameters"/> 呼叫
+            <see cref="M:RyanJuan.Minerva.SqlClientHelper.MinervaSqlClient.AddWithValues(System.Data.SqlClient.SqlParameterCollection,System.Object[])"/> 以存入參數。
+            </para>
+            </summary>
+            <typeparam name="T">查詢結果的資料型別。</typeparam>
+            <param name="command"><see cref="T:System.Data.SqlClient.SqlCommand"/> 物件。</param>
+            <param name="parameters">用於查詢的參數物件。</param>
+            <returns>查詢結果。</returns>
+            <exception cref="T:System.ArgumentNullException"></exception>
+            <exception cref="T:System.ArgumentException"></exception>
+            <exception cref="T:System.InvalidCastException"></exception>
+            <exception cref="T:System.Data.SqlClient.SqlException"></exception>
+            <exception cref="T:System.IO.IOException"></exception>
+            <exception cref="T:System.InvalidOperationException"></exception>
+            <exception cref="T:System.ObjectDisposedException"></exception>
+        </member>
+        <member name="M:RyanJuan.Minerva.SqlClientHelper.MinervaSqlClient.FetchFirstAsync``1(System.Data.SqlClient.SqlCommand,System.Threading.CancellationToken,System.Object[])">
+            <summary>
+            非同步版本的 <see cref="M:RyanJuan.Minerva.SqlClientHelper.MinervaSqlClient.FetchFirst``1(System.Data.SqlClient.SqlCommand,System.Object[])"/>。
+            執行查詢，並傳回查詢所傳回的結果集中唯一一筆資料，如果沒有資料，則為預設值。
+            如果結果集中有多個項目，則這個方法會擲回例外狀況。
+            取消語彙基元可用於要求在命令逾時之前取消作業。
+            <para>
+            會以 <see cref="P:System.Data.SqlClient.SqlCommand.Parameters"/> 呼叫
+            <see cref="M:RyanJuan.Minerva.SqlClientHelper.MinervaSqlClient.AddWithValues(System.Data.SqlClient.SqlParameterCollection,System.Object[])"/> 以存入參數。
+            </para>
+            </summary>
+            <typeparam name="T">查詢結果的資料型別。</typeparam>
+            <param name="command"><see cref="T:System.Data.SqlClient.SqlCommand"/> 物件。</param>
+            <param name="cancellationToken">取消指令。</param>
+            <param name="parameters">用於查詢的參數物件。</param>
+            <returns>查詢結果。</returns>
+            <exception cref="T:System.ArgumentNullException"></exception>
+            <exception cref="T:System.ArgumentException"></exception>
+            <exception cref="T:System.InvalidCastException"></exception>
+            <exception cref="T:System.Data.SqlClient.SqlException"></exception>
+            <exception cref="T:System.IO.IOException"></exception>
+            <exception cref="T:System.InvalidOperationException"></exception>
+            <exception cref="T:System.ObjectDisposedException"></exception>
+        </member>
+        <member name="M:RyanJuan.Minerva.SqlClientHelper.MinervaSqlClient.FetchFirstOrDefault``1(System.Data.SqlClient.SqlCommand,System.Object[])">
+            <summary>
+            執行查詢，並傳回查詢所傳回的結果集中唯一一筆資料，如果沒有資料，則為預設值。
+            如果結果集中有多個項目，則這個方法會擲回例外狀況。
+            <para>
+            會以 <see cref="P:System.Data.SqlClient.SqlCommand.Parameters"/> 呼叫
+            <see cref="M:RyanJuan.Minerva.SqlClientHelper.MinervaSqlClient.AddWithValues(System.Data.SqlClient.SqlParameterCollection,System.Object[])"/> 以存入參數。
+            </para>
+            </summary>
+            <typeparam name="T">查詢結果的資料型別。</typeparam>
+            <param name="command"><see cref="T:System.Data.SqlClient.SqlCommand"/> 物件。</param>
+            <param name="parameters">用於查詢的參數物件。</param>
+            <returns>查詢結果。</returns>
+            <exception cref="T:System.ArgumentNullException"></exception>
+            <exception cref="T:System.ArgumentException"></exception>
+            <exception cref="T:System.InvalidCastException"></exception>
+            <exception cref="T:System.Data.SqlClient.SqlException"></exception>
+            <exception cref="T:System.IO.IOException"></exception>
+            <exception cref="T:System.InvalidOperationException"></exception>
+            <exception cref="T:System.ObjectDisposedException"></exception>
+        </member>
+        <member name="M:RyanJuan.Minerva.SqlClientHelper.MinervaSqlClient.FetchFirstOrDefaultAsync``1(System.Data.SqlClient.SqlCommand,System.Object[])">
+            <summary>
+            非同步版本的 <see cref="M:RyanJuan.Minerva.SqlClientHelper.MinervaSqlClient.FetchFirstOrDefault``1(System.Data.SqlClient.SqlCommand,System.Object[])"/>。
+            執行查詢，並傳回查詢所傳回的結果集中唯一一筆資料，如果沒有資料，則為預設值。
+            如果結果集中有多個項目，則這個方法會擲回例外狀況。
+            <para>
+            會以 <see cref="P:System.Data.SqlClient.SqlCommand.Parameters"/> 呼叫
+            <see cref="M:RyanJuan.Minerva.SqlClientHelper.MinervaSqlClient.AddWithValues(System.Data.SqlClient.SqlParameterCollection,System.Object[])"/> 以存入參數。
+            </para>
+            </summary>
+            <typeparam name="T">查詢結果的資料型別。</typeparam>
+            <param name="command"><see cref="T:System.Data.SqlClient.SqlCommand"/> 物件。</param>
+            <param name="parameters">用於查詢的參數物件。</param>
+            <returns>查詢結果。</returns>
+            <exception cref="T:System.ArgumentNullException"></exception>
+            <exception cref="T:System.ArgumentException"></exception>
+            <exception cref="T:System.InvalidCastException"></exception>
+            <exception cref="T:System.Data.SqlClient.SqlException"></exception>
+            <exception cref="T:System.IO.IOException"></exception>
+            <exception cref="T:System.InvalidOperationException"></exception>
+            <exception cref="T:System.ObjectDisposedException"></exception>
+        </member>
+        <member name="M:RyanJuan.Minerva.SqlClientHelper.MinervaSqlClient.FetchFirstOrDefaultAsync``1(System.Data.SqlClient.SqlCommand,System.Threading.CancellationToken,System.Object[])">
+            <summary>
+            非同步版本的 <see cref="M:RyanJuan.Minerva.SqlClientHelper.MinervaSqlClient.FetchFirstOrDefault``1(System.Data.SqlClient.SqlCommand,System.Object[])"/>。
+            執行查詢，並傳回查詢所傳回的結果集中唯一一筆資料，如果沒有資料，則為預設值。
+            如果結果集中有多個項目，則這個方法會擲回例外狀況。
+            取消語彙基元可用於要求在命令逾時之前取消作業。
+            <para>
+            會以 <see cref="P:System.Data.SqlClient.SqlCommand.Parameters"/> 呼叫
+            <see cref="M:RyanJuan.Minerva.SqlClientHelper.MinervaSqlClient.AddWithValues(System.Data.SqlClient.SqlParameterCollection,System.Object[])"/> 以存入參數。
+            </para>
+            </summary>
+            <typeparam name="T">查詢結果的資料型別。</typeparam>
+            <param name="command"><see cref="T:System.Data.SqlClient.SqlCommand"/> 物件。</param>
+            <param name="cancellationToken">取消指令。</param>
+            <param name="parameters">用於查詢的參數物件。</param>
+            <returns>查詢結果。</returns>
+            <exception cref="T:System.ArgumentNullException"></exception>
+            <exception cref="T:System.ArgumentException"></exception>
+            <exception cref="T:System.InvalidCastException"></exception>
+            <exception cref="T:System.Data.SqlClient.SqlException"></exception>
+            <exception cref="T:System.IO.IOException"></exception>
+            <exception cref="T:System.InvalidOperationException"></exception>
+            <exception cref="T:System.ObjectDisposedException"></exception>
+        </member>
+        <member name="M:RyanJuan.Minerva.SqlClientHelper.MinervaSqlClient.FetchScalar``1(System.Data.SqlClient.SqlCommand,System.Object[])">
+            <summary>
+            執行查詢，並傳回查詢所傳回的結果集第一個資料列的第一個資料行。
+            會忽略其他的資料行或資料列。
+            <para>
+            會以 <see cref="P:System.Data.SqlClient.SqlCommand.Parameters"/> 呼叫
+            <see cref="M:RyanJuan.Minerva.SqlClientHelper.MinervaSqlClient.AddWithValues(System.Data.SqlClient.SqlParameterCollection,System.Object[])"/> 以存入參數。
+            </para>
+            </summary>
+            <typeparam name="T">查詢結果的資料型別。</typeparam>
+            <param name="command"><see cref="T:System.Data.SqlClient.SqlCommand"/> 物件。</param>
+            <param name="parameters">用於查詢的參數物件。</param>
+            <returns>查詢結果。</returns>
+            <exception cref="T:System.ArgumentNullException"></exception>
+            <exception cref="T:System.ArgumentException"></exception>
+            <exception cref="T:System.InvalidCastException"></exception>
+            <exception cref="T:System.Data.SqlClient.SqlException"></exception>
+            <exception cref="T:System.IO.IOException"></exception>
+            <exception cref="T:System.InvalidOperationException"></exception>
+            <exception cref="T:System.ObjectDisposedException"></exception>
+        </member>
+        <member name="M:RyanJuan.Minerva.SqlClientHelper.MinervaSqlClient.FetchScalarAsync``1(System.Data.SqlClient.SqlCommand,System.Object[])">
+            <summary>
+            非同步版本的 <see cref="M:RyanJuan.Minerva.SqlClientHelper.MinervaSqlClient.FetchScalar``1(System.Data.SqlClient.SqlCommand,System.Object[])"/>。
+            執行查詢，並傳回查詢所傳回的結果集第一個資料列的第一個資料行。
+            會忽略其他的資料行或資料列。
+            <para>
+            會以 <see cref="P:System.Data.SqlClient.SqlCommand.Parameters"/> 呼叫
+            <see cref="M:RyanJuan.Minerva.SqlClientHelper.MinervaSqlClient.AddWithValues(System.Data.SqlClient.SqlParameterCollection,System.Object[])"/> 以存入參數。
+            </para>
+            </summary>
+            <typeparam name="T">查詢結果的資料型別。</typeparam>
+            <param name="command"><see cref="T:System.Data.SqlClient.SqlCommand"/> 物件。</param>
+            <param name="parameters">用於查詢的參數物件。</param>
+            <returns>查詢結果。</returns>
+            <exception cref="T:System.ArgumentNullException"></exception>
+            <exception cref="T:System.ArgumentException"></exception>
+            <exception cref="T:System.InvalidCastException"></exception>
+            <exception cref="T:System.Data.SqlClient.SqlException"></exception>
+            <exception cref="T:System.IO.IOException"></exception>
+            <exception cref="T:System.InvalidOperationException"></exception>
+            <exception cref="T:System.ObjectDisposedException"></exception>
+        </member>
+        <member name="M:RyanJuan.Minerva.SqlClientHelper.MinervaSqlClient.FetchScalarAsync``1(System.Data.SqlClient.SqlCommand,System.Threading.CancellationToken,System.Object[])">
+            <summary>
+            非同步版本的 <see cref="M:RyanJuan.Minerva.SqlClientHelper.MinervaSqlClient.FetchScalar``1(System.Data.SqlClient.SqlCommand,System.Object[])"/>。
+            執行查詢，並傳回查詢所傳回的結果集第一個資料列的第一個資料行。
+            會忽略其他的資料行或資料列。
+            取消語彙基元可用於要求在命令逾時之前取消作業。
+            <para>
+            會以 <see cref="P:System.Data.SqlClient.SqlCommand.Parameters"/> 呼叫
+            <see cref="M:RyanJuan.Minerva.SqlClientHelper.MinervaSqlClient.AddWithValues(System.Data.SqlClient.SqlParameterCollection,System.Object[])"/> 以存入參數。
+            </para>
+            </summary>
+            <typeparam name="T">查詢結果的資料型別。</typeparam>
+            <param name="command"><see cref="T:System.Data.SqlClient.SqlCommand"/> 物件。</param>
+            <param name="cancellationToken">取消指令。</param>
+            <param name="parameters">用於查詢的參數物件。</param>
+            <returns>查詢結果。</returns>
+            <exception cref="T:System.ArgumentNullException"></exception>
+            <exception cref="T:System.ArgumentException"></exception>
+            <exception cref="T:System.InvalidCastException"></exception>
+            <exception cref="T:System.Data.SqlClient.SqlException"></exception>
+            <exception cref="T:System.IO.IOException"></exception>
+            <exception cref="T:System.InvalidOperationException"></exception>
+            <exception cref="T:System.ObjectDisposedException"></exception>
+        </member>
+        <member name="M:RyanJuan.Minerva.SqlClientHelper.MinervaSqlClient.FetchSingle``1(System.Data.SqlClient.SqlCommand,System.Object[])">
+            <summary>
+            執行查詢，並傳回查詢所傳回的結果集中唯一一筆資料，如果沒有資料，則為預設值。
+            如果結果集中有多個項目，則這個方法會擲回例外狀況。
+            <para>
+            會以 <see cref="P:System.Data.SqlClient.SqlCommand.Parameters"/> 呼叫
+            <see cref="M:RyanJuan.Minerva.SqlClientHelper.MinervaSqlClient.AddWithValues(System.Data.SqlClient.SqlParameterCollection,System.Object[])"/> 以存入參數。
+            </para>
+            </summary>
+            <typeparam name="T">查詢結果的資料型別。</typeparam>
+            <param name="command"><see cref="T:System.Data.SqlClient.SqlCommand"/> 物件。</param>
+            <param name="parameters">用於查詢的參數物件。</param>
+            <returns>查詢結果。</returns>
+            <exception cref="T:System.ArgumentNullException"></exception>
+            <exception cref="T:System.ArgumentException"></exception>
+            <exception cref="T:System.InvalidCastException"></exception>
+            <exception cref="T:System.Data.SqlClient.SqlException"></exception>
+            <exception cref="T:System.IO.IOException"></exception>
+            <exception cref="T:System.InvalidOperationException"></exception>
+            <exception cref="T:System.ObjectDisposedException"></exception>
+        </member>
+        <member name="M:RyanJuan.Minerva.SqlClientHelper.MinervaSqlClient.FetchSingleAsync``1(System.Data.SqlClient.SqlCommand,System.Object[])">
+            <summary>
+            非同步版本的 <see cref="M:RyanJuan.Minerva.SqlClientHelper.MinervaSqlClient.FetchSingle``1(System.Data.SqlClient.SqlCommand,System.Object[])"/>。
+            執行查詢，並傳回查詢所傳回的結果集中唯一一筆資料，如果沒有資料，則為預設值。
+            如果結果集中有多個項目，則這個方法會擲回例外狀況。
+            <para>
+            會以 <see cref="P:System.Data.SqlClient.SqlCommand.Parameters"/> 呼叫
+            <see cref="M:RyanJuan.Minerva.SqlClientHelper.MinervaSqlClient.AddWithValues(System.Data.SqlClient.SqlParameterCollection,System.Object[])"/> 以存入參數。
+            </para>
+            </summary>
+            <typeparam name="T">查詢結果的資料型別。</typeparam>
+            <param name="command"><see cref="T:System.Data.SqlClient.SqlCommand"/> 物件。</param>
+            <param name="parameters">用於查詢的參數物件。</param>
+            <returns>查詢結果。</returns>
+            <exception cref="T:System.ArgumentNullException"></exception>
+            <exception cref="T:System.ArgumentException"></exception>
+            <exception cref="T:System.InvalidCastException"></exception>
+            <exception cref="T:System.Data.SqlClient.SqlException"></exception>
+            <exception cref="T:System.IO.IOException"></exception>
+            <exception cref="T:System.InvalidOperationException"></exception>
+            <exception cref="T:System.ObjectDisposedException"></exception>
+        </member>
+        <member name="M:RyanJuan.Minerva.SqlClientHelper.MinervaSqlClient.FetchSingleAsync``1(System.Data.SqlClient.SqlCommand,System.Threading.CancellationToken,System.Object[])">
+            <summary>
+            非同步版本的 <see cref="M:RyanJuan.Minerva.SqlClientHelper.MinervaSqlClient.FetchSingle``1(System.Data.SqlClient.SqlCommand,System.Object[])"/>。
+            執行查詢，並傳回查詢所傳回的結果集中唯一一筆資料，如果沒有資料，則為預設值。
+            如果結果集中有多個項目，則這個方法會擲回例外狀況。
+            取消語彙基元可用於要求在命令逾時之前取消作業。
+            <para>
+            會以 <see cref="P:System.Data.SqlClient.SqlCommand.Parameters"/> 呼叫
+            <see cref="M:RyanJuan.Minerva.SqlClientHelper.MinervaSqlClient.AddWithValues(System.Data.SqlClient.SqlParameterCollection,System.Object[])"/> 以存入參數。
+            </para>
+            </summary>
+            <typeparam name="T">查詢結果的資料型別。</typeparam>
+            <param name="command"><see cref="T:System.Data.SqlClient.SqlCommand"/> 物件。</param>
+            <param name="cancellationToken">取消指令。</param>
+            <param name="parameters">用於查詢的參數物件。</param>
+            <returns>查詢結果。</returns>
+            <exception cref="T:System.ArgumentNullException"></exception>
+            <exception cref="T:System.ArgumentException"></exception>
+            <exception cref="T:System.InvalidCastException"></exception>
+            <exception cref="T:System.Data.SqlClient.SqlException"></exception>
+            <exception cref="T:System.IO.IOException"></exception>
+            <exception cref="T:System.InvalidOperationException"></exception>
+            <exception cref="T:System.ObjectDisposedException"></exception>
+        </member>
+        <member name="M:RyanJuan.Minerva.SqlClientHelper.MinervaSqlClient.FetchSingleOrDefault``1(System.Data.SqlClient.SqlCommand,System.Object[])">
+            <summary>
+            執行查詢，並傳回查詢所傳回的結果集中唯一一筆資料，如果沒有資料，則為預設值。
+            如果結果集中有多個項目，則這個方法會擲回例外狀況。
+            <para>
+            會以 <see cref="P:System.Data.SqlClient.SqlCommand.Parameters"/> 呼叫
+            <see cref="M:RyanJuan.Minerva.SqlClientHelper.MinervaSqlClient.AddWithValues(System.Data.SqlClient.SqlParameterCollection,System.Object[])"/> 以存入參數。
+            </para>
+            </summary>
+            <typeparam name="T">查詢結果的資料型別。</typeparam>
+            <param name="command"><see cref="T:System.Data.SqlClient.SqlCommand"/> 物件。</param>
+            <param name="parameters">用於查詢的參數物件。</param>
+            <returns>查詢結果。</returns>
+            <exception cref="T:System.ArgumentNullException"></exception>
+            <exception cref="T:System.ArgumentException"></exception>
+            <exception cref="T:System.InvalidCastException"></exception>
+            <exception cref="T:System.Data.SqlClient.SqlException"></exception>
+            <exception cref="T:System.IO.IOException"></exception>
+            <exception cref="T:System.InvalidOperationException"></exception>
+            <exception cref="T:System.ObjectDisposedException"></exception>
+        </member>
+        <member name="M:RyanJuan.Minerva.SqlClientHelper.MinervaSqlClient.FetchSingleOrDefaultAsync``1(System.Data.SqlClient.SqlCommand,System.Object[])">
+            <summary>
+            非同步版本的 <see cref="M:RyanJuan.Minerva.SqlClientHelper.MinervaSqlClient.FetchSingleOrDefault``1(System.Data.SqlClient.SqlCommand,System.Object[])"/>。
+            執行查詢，並傳回查詢所傳回的結果集中唯一一筆資料，如果沒有資料，則為預設值。
+            如果結果集中有多個項目，則這個方法會擲回例外狀況。
+            <para>
+            會以 <see cref="P:System.Data.SqlClient.SqlCommand.Parameters"/> 呼叫
+            <see cref="M:RyanJuan.Minerva.SqlClientHelper.MinervaSqlClient.AddWithValues(System.Data.SqlClient.SqlParameterCollection,System.Object[])"/> 以存入參數。
+            </para>
+            </summary>
+            <typeparam name="T">查詢結果的資料型別。</typeparam>
+            <param name="command"><see cref="T:System.Data.SqlClient.SqlCommand"/> 物件。</param>
+            <param name="parameters">用於查詢的參數物件。</param>
+            <returns>查詢結果。</returns>
+            <exception cref="T:System.ArgumentNullException"></exception>
+            <exception cref="T:System.ArgumentException"></exception>
+            <exception cref="T:System.InvalidCastException"></exception>
+            <exception cref="T:System.Data.SqlClient.SqlException"></exception>
+            <exception cref="T:System.IO.IOException"></exception>
+            <exception cref="T:System.InvalidOperationException"></exception>
+            <exception cref="T:System.ObjectDisposedException"></exception>
+        </member>
+        <member name="M:RyanJuan.Minerva.SqlClientHelper.MinervaSqlClient.FetchSingleOrDefaultAsync``1(System.Data.SqlClient.SqlCommand,System.Threading.CancellationToken,System.Object[])">
+            <summary>
+            非同步版本的 <see cref="M:RyanJuan.Minerva.SqlClientHelper.MinervaSqlClient.FetchSingleOrDefault``1(System.Data.SqlClient.SqlCommand,System.Object[])"/>。
+            執行查詢，並傳回查詢所傳回的結果集中唯一一筆資料，如果沒有資料，則為預設值。
+            如果結果集中有多個項目，則這個方法會擲回例外狀況。
+            取消語彙基元可用於要求在命令逾時之前取消作業。
+            <para>
+            會以 <see cref="P:System.Data.SqlClient.SqlCommand.Parameters"/> 呼叫
+            <see cref="M:RyanJuan.Minerva.SqlClientHelper.MinervaSqlClient.AddWithValues(System.Data.SqlClient.SqlParameterCollection,System.Object[])"/> 以存入參數。
+            </para>
+            </summary>
+            <typeparam name="T">查詢結果的資料型別。</typeparam>
+            <param name="command"><see cref="T:System.Data.SqlClient.SqlCommand"/> 物件。</param>
+            <param name="cancellationToken">取消指令。</param>
+            <param name="parameters">用於查詢的參數物件。</param>
+            <returns>查詢結果。</returns>
+            <exception cref="T:System.ArgumentNullException"></exception>
+            <exception cref="T:System.ArgumentException"></exception>
+            <exception cref="T:System.InvalidCastException"></exception>
+            <exception cref="T:System.Data.SqlClient.SqlException"></exception>
+            <exception cref="T:System.IO.IOException"></exception>
+            <exception cref="T:System.InvalidOperationException"></exception>
+            <exception cref="T:System.ObjectDisposedException"></exception>
+        </member>
+        <member name="P:RyanJuan.Minerva.SqlClientHelper.MinervaSqlClient.ValidDbTypes">
+            <summary>
+            所有 <see cref="T:System.Data.SqlClient.SqlParameter"/> 允許的 <see cref="T:System.Data.DbType"/>。
+            </summary>
+        </member>
+        <member name="F:RyanJuan.Minerva.SqlClientHelper.MinervaSqlClient.s_validDbTypes">
+            <summary>
+            <see cref="P:RyanJuan.Minerva.SqlClientHelper.MinervaSqlClient.ValidDbTypes"/> 底層的儲存陣列。
+            </summary>
+        </member>
+        <member name="M:RyanJuan.Minerva.SqlClientHelper.MinervaSqlClient.OpenConnection(System.String)">
+            <summary>
+            
+            </summary>
+            <param name="connectionString"></param>
+            <returns></returns>
+        </member>
+        <member name="M:RyanJuan.Minerva.SqlClientHelper.MinervaSqlClient.OpenConnection(System.String,System.Data.SqlClient.SqlCredential)">
+            <summary>
+            
+            </summary>
+            <param name="connectionString"></param>
+            <param name="credential"></param>
+            <returns></returns>
+        </member>
+        <member name="M:RyanJuan.Minerva.SqlClientHelper.MinervaSqlClient.OpenConnectionAsync(System.String)">
+            <summary>
+            
+            </summary>
+            <param name="connectionString"></param>
+            <returns></returns>
+        </member>
+        <member name="M:RyanJuan.Minerva.SqlClientHelper.MinervaSqlClient.OpenConnectionAsync(System.String,System.Data.SqlClient.SqlCredential)">
+            <summary>
+            
+            </summary>
+            <param name="connectionString"></param>
+            <param name="credential"></param>
+            <returns></returns>
+        </member>
+        <member name="M:RyanJuan.Minerva.SqlClientHelper.MinervaSqlClient.OpenConnectionAsync(System.String,System.Threading.CancellationToken)">
+            <summary>
+            
+            </summary>
+            <param name="connectionString"></param>
+            <param name="cancellationToken"></param>
+            <returns></returns>
+        </member>
+        <member name="M:RyanJuan.Minerva.SqlClientHelper.MinervaSqlClient.OpenConnectionAsync(System.String,System.Data.SqlClient.SqlCredential,System.Threading.CancellationToken)">
+            <summary>
+            
+            </summary>
+            <param name="connectionString"></param>
+            <param name="credential"></param>
+            <param name="cancellationToken"></param>
+            <returns></returns>
+        </member>
+        <member name="M:RyanJuan.Minerva.SqlClientHelper.MinervaSqlClient.ScopeIdentityDecimal(System.Data.SqlClient.SqlConnection)">
+            <summary>
+            
+            </summary>
+            <param name="connection"></param>
+            <returns></returns>
+        </member>
+        <member name="M:RyanJuan.Minerva.SqlClientHelper.MinervaSqlClient.ScopeIdentityDecimalAsync(System.Data.SqlClient.SqlConnection)">
+            <summary>
+            
+            </summary>
+            <param name="connection"></param>
+            <returns></returns>
+        </member>
+        <member name="M:RyanJuan.Minerva.SqlClientHelper.MinervaSqlClient.ScopeIdentityDecimalAsync(System.Data.SqlClient.SqlConnection,System.Threading.CancellationToken)">
+            <summary>
+            
+            </summary>
+            <param name="connection"></param>
+            <param name="cancellationToken"></param>
+            <returns></returns>
+        </member>
+        <member name="M:RyanJuan.Minerva.SqlClientHelper.MinervaSqlClient.ScopeIdentityInt(System.Data.SqlClient.SqlConnection)">
+            <summary>
+            
+            </summary>
+            <param name="connection"></param>
+            <returns></returns>
+        </member>
+        <member name="M:RyanJuan.Minerva.SqlClientHelper.MinervaSqlClient.ScopeIdentityIntAsync(System.Data.SqlClient.SqlConnection)">
+            <summary>
+            
+            </summary>
+            <param name="connection"></param>
+            <returns></returns>
+        </member>
+        <member name="M:RyanJuan.Minerva.SqlClientHelper.MinervaSqlClient.ScopeIdentityIntAsync(System.Data.SqlClient.SqlConnection,System.Threading.CancellationToken)">
+            <summary>
+            
+            </summary>
+            <param name="connection"></param>
+            <param name="cancellationToken"></param>
+            <returns></returns>
+        </member>
+    </members>
+</doc>

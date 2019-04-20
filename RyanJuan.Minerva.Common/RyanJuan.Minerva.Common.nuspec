@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<package xmlns="http://schemas.microsoft.com/packaging/2012/06/nuspec.xsd">
+  <metadata>
+    <id>RyanJuan.Minerva.Common</id>
+    <version>1.0.0-beta6</version>
+    <description>Core project for RyanJuan.Minerva. Should not be used directly, use other subset of RyanJuan.Minerva which implement for various database instead, such as RyanJuan.Minerva.SqlClient, RyanJuan.Minerva.Odbc etc.</description>
+    <authors>RyanJuan</authors>
+    <owners>RyanJuan</owners>
+    <projectUrl>https://github.com/ryans610/Minerva</projectUrl>
+    <license type="expression">MIT</license>
+    <requireLicenseAcceptance>false</requireLicenseAcceptance>
+    <releaseNotes>Refactoring and some mechanism change.</releaseNotes>
+    <copyright>Copyright ©2019 RyanJuan</copyright>
+    <language>en</language>
+    <dependencies>
+      <group targetFramework=".NETStandard2.0" />
+    </dependencies>
+  </metadata>
+  <files>
+    <file src="lib\**" target="lib" />
+  </files>
+</package>
