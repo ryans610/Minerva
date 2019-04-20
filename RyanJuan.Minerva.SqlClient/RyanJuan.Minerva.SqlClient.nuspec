@@ -2,14 +2,14 @@
 <package xmlns="http://schemas.microsoft.com/packaging/2012/06/nuspec.xsd">
   <metadata>
     <id>RyanJuan.Minerva.SqlClient</id>
-    <version>1.0.0-beta7</version>
+    <version>1.0.0-beta8</version>
     <description>Minerva for SQL Server. Minerva is a light weight database helper, aim for simplify the data binding process for both parameter and return data.</description>
     <authors>RyanJuan</authors>
     <owners>RyanJuan</owners>
     <projectUrl>https://github.com/ryans610/Minerva</projectUrl>
     <license type="expression">MIT</license>
     <requireLicenseAcceptance>false</requireLicenseAcceptance>
-    <releaseNotes>Hot fix for stack overflow in some method.</releaseNotes>
+    <releaseNotes>Hot fix for scope identity.</releaseNotes>
     <copyright>Copyright ©2019 RyanJuan</copyright>
     <language>en</language>
     <dependencies>

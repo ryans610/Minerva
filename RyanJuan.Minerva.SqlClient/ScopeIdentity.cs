@@ -11,7 +11,7 @@ namespace RyanJuan.Minerva.SqlClientHelper
 {
     public static partial class MinervaSqlClient
     {
-        private static readonly string s_sqlScopeIdentity = "select ScopeIdentity()";
+        private static readonly string s_sqlScopeIdentity = "select Scope_Identity()";
 
         /// <summary>
         /// 
