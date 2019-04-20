@@ -64,7 +64,6 @@ namespace RyanJuan.Minerva.SqlClientHelper
             params object[] parameters)
         {
             return await command.FetchSingleOrDefaultAsync<T>(
-                command,
                 CancellationToken.None,
                 parameters);
         }
