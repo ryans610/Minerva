@@ -21,11 +21,9 @@ namespace RyanJuan.Minerva.SqlClientHelper
         public static decimal ScopeIdentityDecimal(
             this SqlConnection connection)
         {
-            using (var command = connection.CreateCommand())
-            {
-                command.CommandText = s_sqlScopeIdentity;
-                return command.FetchScalar<decimal>();
-            }
+            using var command = connection.CreateCommand();
+            command.CommandText = s_sqlScopeIdentity;
+            return command.FetchScalar<decimal>();
         }
 
         /// <summary>
@@ -49,11 +47,9 @@ namespace RyanJuan.Minerva.SqlClientHelper
             this SqlConnection connection,
             CancellationToken cancellationToken)
         {
-            using (var command = connection.CreateCommand())
-            {
-                command.CommandText = s_sqlScopeIdentity;
-                return await command.FetchScalarAsync<decimal>(cancellationToken);
-            }
+            using var command = connection.CreateCommand();
+            command.CommandText = s_sqlScopeIdentity;
+            return await command.FetchScalarAsync<decimal>(cancellationToken);
         }
 
         /// <summary>

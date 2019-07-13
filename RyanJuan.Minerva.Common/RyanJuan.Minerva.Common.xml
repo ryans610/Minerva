@@ -64,7 +64,7 @@
         </member>
         <member name="P:RyanJuan.Minerva.DbTypeAttribute.DBType">
             <summary>
-            Database type.
+            資料庫欄位的型別。
             </summary>
         </member>
         <member name="P:RyanJuan.Minerva.DbTypeAttribute.Size">
@@ -709,7 +709,8 @@
         </member>
         <member name="F:RyanJuan.Minerva.FetchMode.Default">
             <summary>
-            
+            Using default fetch mode setting by user,
+            or system default value (<see cref="F:RyanJuan.Minerva.FetchMode.Buffer"/>).
             </summary>
         </member>
         <member name="F:RyanJuan.Minerva.FetchMode.Buffer">

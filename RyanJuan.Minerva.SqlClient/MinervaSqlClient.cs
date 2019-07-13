@@ -6,6 +6,7 @@ using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 using RyanJuan.Minerva.Common;
+using System.Collections.ObjectModel;
 
 namespace RyanJuan.Minerva.SqlClientHelper
 {
@@ -25,23 +26,23 @@ namespace RyanJuan.Minerva.SqlClientHelper
         private static readonly MinervaCore s_core;
 
         /// <summary>
+        /// <see cref="ValidDbTypes"/> 底層的儲存陣列。
+        /// </summary>
+        private static ReadOnlyCollection<DbType> s_validDbTypes = null;
+
+        /// <summary>
         /// 所有 <see cref="SqlParameter"/> 允許的 <see cref="DbType"/>。
         /// </summary>
-        public static DbType[] ValidDbTypes
+        public static IReadOnlyCollection<DbType> ValidDbTypes
         {
             get
             {
                 if (s_validDbTypes is null)
                 {
-                    s_validDbTypes = s_core.GetValidDbTypes().ToArray();
+                    s_validDbTypes = s_core.GetValidDbTypes().ToList().AsReadOnly();
                 }
                 return s_validDbTypes;
             }
         }
-
-        /// <summary>
-        /// <see cref="ValidDbTypes"/> 底層的儲存陣列。
-        /// </summary>
-        private static DbType[] s_validDbTypes = null;
     }
 }

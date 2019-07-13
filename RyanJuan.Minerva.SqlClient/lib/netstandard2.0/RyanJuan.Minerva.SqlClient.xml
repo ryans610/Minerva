@@ -863,14 +863,14 @@
             <exception cref="T:System.InvalidOperationException"></exception>
             <exception cref="T:System.ObjectDisposedException"></exception>
         </member>
-        <member name="P:RyanJuan.Minerva.SqlClientHelper.MinervaSqlClient.ValidDbTypes">
-            <summary>
-            所有 <see cref="T:System.Data.SqlClient.SqlParameter"/> 允許的 <see cref="T:System.Data.DbType"/>。
-            </summary>
-        </member>
         <member name="F:RyanJuan.Minerva.SqlClientHelper.MinervaSqlClient.s_validDbTypes">
             <summary>
             <see cref="P:RyanJuan.Minerva.SqlClientHelper.MinervaSqlClient.ValidDbTypes"/> 底層的儲存陣列。
+            </summary>
+        </member>
+        <member name="P:RyanJuan.Minerva.SqlClientHelper.MinervaSqlClient.ValidDbTypes">
+            <summary>
+            所有 <see cref="T:System.Data.SqlClient.SqlParameter"/> 允許的 <see cref="T:System.Data.DbType"/>。
             </summary>
         </member>
         <member name="M:RyanJuan.Minerva.SqlClientHelper.MinervaSqlClient.OpenConnection(System.String)">

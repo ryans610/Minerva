@@ -72,12 +72,16 @@ namespace RyanJuan.Minerva.Common
                 }
                 if (fetchMode == FetchMode.Buffer)
                 {
-                    var list = new List<T>();
-                    while (reader.Read())
+                    using (reader)
                     {
-                        list.Add(reader.GetValueAsT<T>(isObjectType, properties));
+                        // FetchMode.Buffer as default
+                        var list = new List<T>();
+                        while (reader.Read())
+                        {
+                            list.Add(reader.GetValueAsT<T>(isObjectType, properties));
+                        }
+                        return list;
                     }
-                    return list;
                 }
                 else if (fetchMode == FetchMode.Stream)
                 {
@@ -89,7 +93,6 @@ namespace RyanJuan.Minerva.Common
                 }
                 else
                 {
-                    // FetchMode.Hybrid as default
                     var list = new List<T>();
                     while (reader.Read())
                     {
@@ -172,16 +175,20 @@ namespace RyanJuan.Minerva.Common
                 }
                 if (fetchMode == FetchMode.Buffer)
                 {
-                    var list = new List<T>();
-                    while (await reader.ReadAsync(cancellationToken))
+                    using (reader)
                     {
-                        if (cancellationToken.IsCancellationRequested)
+                        // FetchMode.Buffer as default
+                        var list = new List<T>();
+                        while (await reader.ReadAsync(cancellationToken))
                         {
-                            throw Error.OperationCanceled(cancellationToken);
+                            if (cancellationToken.IsCancellationRequested)
+                            {
+                                throw Error.OperationCanceled(cancellationToken);
+                            }
+                            list.Add(reader.GetValueAsT<T>(isObjectType, properties));
                         }
-                        list.Add(reader.GetValueAsT<T>(isObjectType, properties));
+                        return list;
                     }
-                    return list;
                 }
                 else if (fetchMode == FetchMode.Stream)
                 {
@@ -193,7 +200,6 @@ namespace RyanJuan.Minerva.Common
                 }
                 else
                 {
-                    // FetchMode.Hybrid as default
                     var list = new List<T>();
                     while (await reader.ReadAsync(cancellationToken))
                     {

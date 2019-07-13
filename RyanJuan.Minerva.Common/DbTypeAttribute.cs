@@ -37,6 +37,7 @@ namespace RyanJuan.Minerva
             }
             Size = size;
         }
+
 #if ZH_HANT
         /// <summary>
         /// 資料庫欄位的型別。

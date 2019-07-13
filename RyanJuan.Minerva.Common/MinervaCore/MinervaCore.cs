@@ -32,7 +32,7 @@ namespace RyanJuan.Minerva.Common
 
         private readonly DbProviderFactory _factory = null;
 
-        private FetchMode _defaultFetchMode = FetchMode.Hybrid;
+        private FetchMode _defaultFetchMode = FetchMode.Buffer;
 
         /// <summary>
         /// Gets all <see cref="DbType"/> which is valid for implement of
@@ -75,7 +75,7 @@ namespace RyanJuan.Minerva.Common
         /// <param name="fetchMode"></param>
         public void SetDefaultFetchMode(FetchMode fetchMode)
         {
-            _defaultFetchMode = fetchMode == FetchMode.Default ? FetchMode.Hybrid : fetchMode;
+            _defaultFetchMode = fetchMode == FetchMode.Default ? FetchMode.Buffer : fetchMode;
         }
     }
 }

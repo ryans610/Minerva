@@ -119,10 +119,8 @@ namespace RyanJuan.Minerva.Common
         {
             using (list as IDisposable)
             {
-                using (var iterator = list.GetEnumerator())
-                {
-                    return iterator.MoveNext() ? iterator.Current : default;
-                }
+                using var iterator = list.GetEnumerator();
+                return iterator.MoveNext() ? iterator.Current : default;
             }
         }
     }

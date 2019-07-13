@@ -6,7 +6,8 @@
     public enum FetchMode
     {
         /// <summary>
-        /// 
+        /// Using default fetch mode setting by user,
+        /// or system default value (<see cref="FetchMode.Buffer"/>).
         /// </summary>
         Default = 0,
         /// <summary>
