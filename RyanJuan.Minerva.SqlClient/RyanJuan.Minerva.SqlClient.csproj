@@ -3,7 +3,7 @@
   <PropertyGroup>
     <TargetFramework>netstandard2.0</TargetFramework>
     <LangVersion>8.0</LangVersion>
-    <Version>1.0.0-beta90714</Version>
+    <Version>1.0.0-beta90716</Version>
     <Authors>RyanJuan</Authors>
     <Company>RyanJuan</Company>
     <Copyright>Copyright ©2019 RyanJuan</Copyright>

@@ -71,7 +71,7 @@ namespace RyanJuan.Minerva.Common
                     try
                     {
                         var dbtype = property.GetCustomAttribute<DbTypeAttribute>();
-                        var type = dbtype is null ? GetDBType(property.DeclaringType) : dbtype.DBType;
+                        var type = dbtype is null ? GetDBType(property.PropertyType) : dbtype.DBType;
                         var column = property.GetCustomAttribute<DbColumnNameAttribute>();
                         var value = property.GetValue(obj);
                         var added = false;
