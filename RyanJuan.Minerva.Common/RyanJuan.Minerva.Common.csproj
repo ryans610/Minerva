@@ -12,7 +12,15 @@
     <Description>Core project for RyanJuan.Minerva.
 Should not be used directly, use other subset of RyanJuan.Minerva which implement for various database instead, such as RyanJuan.Minerva.SqlClient, RyanJuan.Minerva.Odbc etc.</Description>
     <Configurations>Debug;Release;Release-zh-Hant</Configurations>
+    <PublishRepositoryUrl>true</PublishRepositoryUrl>
+    <IncludeSymbols>true</IncludeSymbols>
+    <SymbolPackageFormat>snupkg</SymbolPackageFormat>
   </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Microsoft.SourceLink.GitHub" Version="1.0.0" PrivateAssets="All" />
+  </ItemGroup>
+
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
     <DocumentationFile>D:\ryan\Minerva\RyanJuan.Minerva.Common\RyanJuan.Minerva.Common.xml</DocumentationFile>
