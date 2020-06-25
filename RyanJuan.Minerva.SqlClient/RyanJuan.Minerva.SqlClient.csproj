@@ -11,7 +11,15 @@
     <PackageLicenseUrl>https://github.com/ryans610/Minerva/blob/master/LICENSE</PackageLicenseUrl>
     <Description>Minerva for SQL Server. Minerva is a light weight database helper, aim for simplify the data binding process for both parameter and return data.</Description>
     <Configurations>Debug;Release;Release-zh-Hant</Configurations>
+    <PublishRepositoryUrl>true</PublishRepositoryUrl>
+    <IncludeSymbols>true</IncludeSymbols>
+    <SymbolPackageFormat>snupkg</SymbolPackageFormat>
   </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Microsoft.SourceLink.GitHub" Version="1.0.0" PrivateAssets="All" />
+  </ItemGroup>
+
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
     <DocumentationFile>D:\ryan\Minerva\RyanJuan.Minerva.SqlClient\RyanJuan.Minerva.SqlClient.xml</DocumentationFile>
