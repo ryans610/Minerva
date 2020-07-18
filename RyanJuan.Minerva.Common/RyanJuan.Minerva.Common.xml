@@ -64,7 +64,7 @@
         </member>
         <member name="P:RyanJuan.Minerva.DbTypeAttribute.DBType">
             <summary>
-            資料庫欄位的型別。
+            Database type.
             </summary>
         </member>
         <member name="P:RyanJuan.Minerva.DbTypeAttribute.Size">

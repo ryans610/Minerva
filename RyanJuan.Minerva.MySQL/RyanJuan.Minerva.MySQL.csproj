@@ -1,0 +1,41 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+    <PropertyGroup>
+        <TargetFramework>netstandard2.0</TargetFramework>
+        <LangVersion>8.0</LangVersion>
+        <Version>1.0.0-beta9</Version>
+        <Authors>RyanJuan</Authors>
+        <Company>RyanJuan</Company>
+        <Copyright>Copyright ©2019 RyanJuan</Copyright>
+        <PackageProjectUrl>https://github.com/ryans610/Minerva</PackageProjectUrl>
+        <PackageLicenseUrl>https://github.com/ryans610/Minerva/blob/master/LICENSE</PackageLicenseUrl>
+        <Description>Minerva for MySQL. Minerva is a light weight database helper, aim for simplify the data binding process for both parameter and return data.</Description>
+        <Configurations>Debug;Release;Release-zh-Hant</Configurations>
+    </PropertyGroup>
+
+    <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
+        <DocumentationFile>D:\ryan\Minerva\RyanJuan.Minerva.SqlClient\RyanJuan.Minerva.SqlClient.xml</DocumentationFile>
+    </PropertyGroup>
+
+    <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
+        <DocumentationFile>D:\ryan\Minerva\RyanJuan.Minerva.SqlClient\RyanJuan.Minerva.SqlClient.xml</DocumentationFile>
+    </PropertyGroup>
+
+    <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release-zh-Hant|AnyCPU'">
+        <DocumentationFile>D:\ryan\Minerva\RyanJuan.Minerva.SqlClient\RyanJuan.Minerva.SqlClient.xml</DocumentationFile>
+        <DefineConstants>TRACE;ZH_HANT</DefineConstants>
+    </PropertyGroup>
+
+    <ItemGroup>
+        <PackageReference Include="MySql.Data" Version="8.0.17" />
+    </ItemGroup>
+
+    <ItemGroup>
+        <Folder Include="lib\netstandard2.0\" />
+    </ItemGroup>
+
+    <ItemGroup>
+        <ProjectReference Include="..\RyanJuan.Minerva.Common\RyanJuan.Minerva.Common.csproj" />
+    </ItemGroup>
+
+</Project>
