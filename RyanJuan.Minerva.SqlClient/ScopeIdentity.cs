@@ -5,13 +5,14 @@ using System.Data.SqlClient;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
+
 using RyanJuan.Minerva.Common;
 
 namespace RyanJuan.Minerva.SqlClientHelper
 {
     public static partial class MinervaSqlClient
     {
-        private static readonly string s_sqlScopeIdentity = "select Scope_Identity()";
+        private const string SqlScopeIdentity = @"select Scope_Identity()";
 
         /// <summary>
         /// 
@@ -22,7 +23,7 @@ namespace RyanJuan.Minerva.SqlClientHelper
             this SqlConnection connection)
         {
             using var command = connection.CreateCommand();
-            command.CommandText = s_sqlScopeIdentity;
+            command.CommandText = SqlScopeIdentity;
             return command.FetchScalar<decimal>();
         }
 
@@ -31,10 +32,10 @@ namespace RyanJuan.Minerva.SqlClientHelper
         /// </summary>
         /// <param name="connection"></param>
         /// <returns></returns>
-        public static async Task<decimal> ScopeIdentityDecimalAsync(
+        public static Task<decimal> ScopeIdentityDecimalAsync(
             this SqlConnection connection)
         {
-            return await connection.ScopeIdentityDecimalAsync(CancellationToken.None);
+            return connection.ScopeIdentityDecimalAsync(CancellationToken.None);
         }
 
         /// <summary>
@@ -48,7 +49,7 @@ namespace RyanJuan.Minerva.SqlClientHelper
             CancellationToken cancellationToken)
         {
             using var command = connection.CreateCommand();
-            command.CommandText = s_sqlScopeIdentity;
+            command.CommandText = SqlScopeIdentity;
             return await command.FetchScalarAsync<decimal>(cancellationToken);
         }
 
@@ -68,10 +69,10 @@ namespace RyanJuan.Minerva.SqlClientHelper
         /// </summary>
         /// <param name="connection"></param>
         /// <returns></returns>
-        public static async Task<int> ScopeIdentityIntAsync(
+        public static Task<int> ScopeIdentityIntAsync(
             this SqlConnection connection)
         {
-            return await connection.ScopeIdentityIntAsync(CancellationToken.None);
+            return connection.ScopeIdentityIntAsync(CancellationToken.None);
         }
 
         /// <summary>

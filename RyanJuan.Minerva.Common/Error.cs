@@ -13,6 +13,14 @@ namespace RyanJuan.Minerva.Common
             return new ArgumentNullException(name);
         }
 
+        public static void ThrowIfArgumentNull<TValue>(string name, TValue value)
+        {
+            if (value is null)
+            {
+                throw ArgumentNull(name);
+            }
+        }
+
         public static ArgumentException ArgumentException(string name, ArgumentException ex)
         {
             return new ArgumentException(ex.Message, name, ex);
@@ -34,6 +42,15 @@ namespace RyanJuan.Minerva.Common
             return new OperationCanceledException(
                 "The CancellationToken has been canceled.",
                 cancellationToken);
+        }
+
+        public static void ThrowIfOperationCanceled(
+            CancellationToken cancellationToken)
+        {
+            if (cancellationToken.IsCancellationRequested)
+            {
+                throw OperationCanceled(cancellationToken);
+            }
         }
 
         public static ObjectDisposedException ObjectDisposed(string objectName)

@@ -23,10 +23,7 @@ namespace RyanJuan.Minerva.Common
         /// <param name="factory"></param>
         public MinervaCore(DbProviderFactory factory)
         {
-            if (factory is null)
-            {
-                throw Error.ArgumentNull(nameof(factory));
-            }
+            Error.ThrowIfArgumentNull(nameof(factory), factory);
             _factory = factory;
         }
 
@@ -48,7 +45,7 @@ namespace RyanJuan.Minerva.Common
                 {
                     parameter.DbType = type;
                 }
-                catch
+                catch(Exception)
                 {
                     continue;
                 }

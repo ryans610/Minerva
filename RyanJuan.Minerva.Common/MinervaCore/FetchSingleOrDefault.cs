@@ -46,10 +46,7 @@ namespace RyanJuan.Minerva.Common
             DbCommand command,
             params object[] parameters)
         {
-            if (command is null)
-            {
-                throw Error.ArgumentNull(nameof(command));
-            }
+            Error.ThrowIfArgumentNull(nameof(command), command);
             var list = FetchData<T>(
                 command,
                 CommandBehavior.Default,
@@ -102,10 +99,7 @@ namespace RyanJuan.Minerva.Common
             CancellationToken cancellationToken,
             params object[] parameters)
         {
-            if (command is null)
-            {
-                throw Error.ArgumentNull(nameof(command));
-            }
+            Error.ThrowIfArgumentNull(nameof(command), command);
             var list = await FetchDataAsync<T>(
                 command,
                 CommandBehavior.Default,

@@ -6,7 +6,7 @@ namespace RyanJuan.Minerva
     /// Specifies the name of the corresponding database column.
     /// </summary>
     [AttributeUsage(AttributeTargets.Property, Inherited = true, AllowMultiple = false)]
-    public class DbColumnNameAttribute : Attribute
+    public sealed class DbColumnNameAttribute : Attribute
     {
         /// <summary>
         /// Specifies the name of the corresponding database column.

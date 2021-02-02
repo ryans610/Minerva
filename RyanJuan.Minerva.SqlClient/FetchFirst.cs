@@ -5,6 +5,7 @@ using System.Data.SqlClient;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
+
 using RyanJuan.Minerva.Common;
 
 namespace RyanJuan.Minerva.SqlClientHelper
@@ -59,11 +60,11 @@ namespace RyanJuan.Minerva.SqlClientHelper
         /// <exception cref="System.IO.IOException"></exception>
         /// <exception cref="InvalidOperationException"></exception>
         /// <exception cref="ObjectDisposedException"></exception>
-        public static async Task<T> FetchFirstAsync<T>(
+        public static Task<T> FetchFirstAsync<T>(
             this SqlCommand command,
             params object[] parameters)
         {
-            return await command.FetchFirstAsync<T>(
+            return command.FetchFirstAsync<T>(
                 CancellationToken.None,
                 parameters);
         }
@@ -90,12 +91,12 @@ namespace RyanJuan.Minerva.SqlClientHelper
         /// <exception cref="System.IO.IOException"></exception>
         /// <exception cref="InvalidOperationException"></exception>
         /// <exception cref="ObjectDisposedException"></exception>
-        public static async Task<T> FetchFirstAsync<T>(
+        public static Task<T> FetchFirstAsync<T>(
             this SqlCommand command,
             CancellationToken cancellationToken,
             params object[] parameters)
         {
-            return await s_core.FetchFirstAsync<T>(
+            return s_core.FetchFirstAsync<T>(
                 command,
                 cancellationToken,
                 parameters);

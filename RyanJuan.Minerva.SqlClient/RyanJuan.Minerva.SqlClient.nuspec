@@ -2,20 +2,24 @@
 <package xmlns="http://schemas.microsoft.com/packaging/2012/06/nuspec.xsd">
   <metadata>
     <id>RyanJuan.Minerva.SqlClient</id>
-    <version>1.0.0-beta90716</version>
+    <version>1.1.0-beta00204</version>
     <description>Minerva for SQL Server. Minerva is a light weight database helper, aim for simplify the data binding process for both parameter and return data.</description>
     <authors>RyanJuan</authors>
     <owners>RyanJuan</owners>
     <projectUrl>https://github.com/ryans610/Minerva</projectUrl>
     <license type="expression">MIT</license>
     <requireLicenseAcceptance>false</requireLicenseAcceptance>
-    <releaseNotes>Hot fix for parameter binding.</releaseNotes>
+    <releaseNotes>Change target framework to .NetCore3.1 and .NetStandard2.1 for LTS, add DbIgnoreAttribute, and some performance improvements.</releaseNotes>
     <copyright>Copyright ©2019 RyanJuan</copyright>
     <language>en</language>
     <dependencies>
-      <group targetFramework=".NETStandard2.0">
+      <group targetFramework="netcoreapp3.1">
         <dependency id="System.Data.SqlClient" version="4.5.1" />
-        <dependency id="RyanJuan.Minerva.Common" version="1.0.0-beta90716" />
+        <dependency id="RyanJuan.Minerva.Common" version="1.1.0-beta00204" />
+      </group>
+      <group targetFramework="netstandard2.1">
+        <dependency id="System.Data.SqlClient" version="4.5.1" />
+        <dependency id="RyanJuan.Minerva.Common" version="1.1.0-beta00204" />
       </group>
     </dependencies>
   </metadata>

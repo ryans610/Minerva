@@ -5,6 +5,7 @@ using System.Data.SqlClient;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
+
 using RyanJuan.Minerva.Common;
 
 namespace RyanJuan.Minerva.SqlClientHelper
@@ -196,11 +197,11 @@ namespace RyanJuan.Minerva.SqlClientHelper
         /// <exception cref="System.IO.IOException"></exception>
         /// <exception cref="InvalidOperationException"></exception>
         /// <exception cref="ObjectDisposedException"></exception>
-        public static async Task<IEnumerable<T>> FetchDataAsync<T>(
+        public static Task<IEnumerable<T>> FetchDataAsync<T>(
             this SqlCommand command,
             params object[] parameters)
         {
-            return await command.FetchDataAsync<T>(
+            return command.FetchDataAsync<T>(
                 CommandBehavior.Default,
                 FetchMode.Default,
                 CancellationToken.None,
@@ -236,12 +237,12 @@ namespace RyanJuan.Minerva.SqlClientHelper
         /// <exception cref="System.IO.IOException"></exception>
         /// <exception cref="InvalidOperationException"></exception>
         /// <exception cref="ObjectDisposedException"></exception>
-        public static async Task<IEnumerable<T>> FetchDataAsync<T>(
+        public static Task<IEnumerable<T>> FetchDataAsync<T>(
             this SqlCommand command,
             CommandBehavior behavior,
             params object[] parameters)
         {
-            return await command.FetchDataAsync<T>(
+            return command.FetchDataAsync<T>(
                 behavior,
                 FetchMode.Default,
                 CancellationToken.None,
@@ -277,12 +278,12 @@ namespace RyanJuan.Minerva.SqlClientHelper
         /// <exception cref="System.IO.IOException"></exception>
         /// <exception cref="InvalidOperationException"></exception>
         /// <exception cref="ObjectDisposedException"></exception>
-        public static async Task<IEnumerable<T>> FetchDataAsync<T>(
+        public static Task<IEnumerable<T>> FetchDataAsync<T>(
             this SqlCommand command,
             FetchMode fetchMode,
             params object[] parameters)
         {
-            return await command.FetchDataAsync<T>(
+            return command.FetchDataAsync<T>(
                 CommandBehavior.Default,
                 fetchMode,
                 CancellationToken.None,
@@ -319,13 +320,13 @@ namespace RyanJuan.Minerva.SqlClientHelper
         /// <exception cref="System.IO.IOException"></exception>
         /// <exception cref="InvalidOperationException"></exception>
         /// <exception cref="ObjectDisposedException"></exception>
-        public static async Task<IEnumerable<T>> FetchDataAsync<T>(
+        public static Task<IEnumerable<T>> FetchDataAsync<T>(
             this SqlCommand command,
             CommandBehavior behavior,
             FetchMode fetchMode,
             params object[] parameters)
         {
-            return await command.FetchDataAsync<T>(
+            return command.FetchDataAsync<T>(
                 behavior,
                 fetchMode,
                 CancellationToken.None,
@@ -362,12 +363,12 @@ namespace RyanJuan.Minerva.SqlClientHelper
         /// <exception cref="System.IO.IOException"></exception>
         /// <exception cref="InvalidOperationException"></exception>
         /// <exception cref="ObjectDisposedException"></exception>
-        public static async Task<IEnumerable<T>> FetchDataAsync<T>(
+        public static Task<IEnumerable<T>> FetchDataAsync<T>(
             this SqlCommand command,
             CancellationToken cancellationToken,
             params object[] parameters)
         {
-            return await command.FetchDataAsync<T>(
+            return command.FetchDataAsync<T>(
                 CommandBehavior.Default,
                 FetchMode.Default,
                 cancellationToken,
@@ -405,13 +406,13 @@ namespace RyanJuan.Minerva.SqlClientHelper
         /// <exception cref="System.IO.IOException"></exception>
         /// <exception cref="InvalidOperationException"></exception>
         /// <exception cref="ObjectDisposedException"></exception>
-        public static async Task<IEnumerable<T>> FetchDataAsync<T>(
+        public static Task<IEnumerable<T>> FetchDataAsync<T>(
             this SqlCommand command,
             CommandBehavior behavior,
             CancellationToken cancellationToken,
             params object[] parameters)
         {
-            return await command.FetchDataAsync<T>(
+            return command.FetchDataAsync<T>(
                 behavior,
                 FetchMode.Default,
                 cancellationToken,
@@ -449,13 +450,13 @@ namespace RyanJuan.Minerva.SqlClientHelper
         /// <exception cref="System.IO.IOException"></exception>
         /// <exception cref="InvalidOperationException"></exception>
         /// <exception cref="ObjectDisposedException"></exception>
-        public static async Task<IEnumerable<T>> FetchDataAsync<T>(
+        public static Task<IEnumerable<T>> FetchDataAsync<T>(
             this SqlCommand command,
             FetchMode fetchMode,
             CancellationToken cancellationToken,
             params object[] parameters)
         {
-            return await command.FetchDataAsync<T>(
+            return command.FetchDataAsync<T>(
                 CommandBehavior.Default,
                 fetchMode,
                 cancellationToken,
@@ -494,14 +495,14 @@ namespace RyanJuan.Minerva.SqlClientHelper
         /// <exception cref="System.IO.IOException"></exception>
         /// <exception cref="InvalidOperationException"></exception>
         /// <exception cref="ObjectDisposedException"></exception>
-        public static async Task<IEnumerable<T>> FetchDataAsync<T>(
+        public static Task<IEnumerable<T>> FetchDataAsync<T>(
             this SqlCommand command,
             CommandBehavior behavior,
             FetchMode fetchMode,
             CancellationToken cancellationToken,
             params object[] parameters)
         {
-            return await s_core.FetchDataAsync<T>(
+            return s_core.FetchDataAsync<T>(
                 command,
                 behavior,
                 fetchMode,

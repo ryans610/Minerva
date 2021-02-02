@@ -1,16 +1,16 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <TargetFramework>netstandard2.0</TargetFramework>
+    <TargetFrameworks>netcoreapp3.1;netstandard2.1</TargetFrameworks>
     <LangVersion>8.0</LangVersion>
-    <Version>1.0.0-beta90716</Version>
+    <Version>1.1.0-beta00204</Version>
     <Authors>RyanJuan</Authors>
     <Company>RyanJuan</Company>
     <Copyright>Copyright ©2019 RyanJuan</Copyright>
     <PackageProjectUrl>https://github.com/ryans610/Minerva</PackageProjectUrl>
     <PackageLicenseUrl>https://github.com/ryans610/Minerva/blob/master/LICENSE</PackageLicenseUrl>
     <Description>Core project for RyanJuan.Minerva.
-Should not be used directly, use other subset of RyanJuan.Minerva which implement for various database instead, such as RyanJuan.Minerva.SqlClient, RyanJuan.Minerva.Odbc etc.</Description>
+Should not be used directly, use other subset of RyanJuan.Minerva which implement for various database instead, such as RyanJuan.Minerva.SqlClient etc.</Description>
     <Configurations>Debug;Release;Release-zh-Hant</Configurations>
   </PropertyGroup>
 
@@ -28,7 +28,8 @@ Should not be used directly, use other subset of RyanJuan.Minerva which implemen
   </PropertyGroup>
 
   <ItemGroup>
-    <Folder Include="lib\netstandard2.0\" />
+    <Folder Include="lib\netstandard2.1\" />
+    <Folder Include="lib\netcoreapp3.1\" />
   </ItemGroup>
 
 </Project>

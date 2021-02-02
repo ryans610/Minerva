@@ -33,10 +33,7 @@ namespace RyanJuan.Minerva.Common
             DbCommand command,
             params object[] parameters)
         {
-            if (command is null)
-            {
-                throw Error.ArgumentNull(nameof(command));
-            }
+            Error.ThrowIfArgumentNull(nameof(command), command);
             AddWithValues(command.Parameters, parameters);
             return GetValueOrDefault<T>(command.ExecuteScalar());
         }
@@ -72,10 +69,7 @@ namespace RyanJuan.Minerva.Common
             CancellationToken cancellationToken,
             params object[] parameters)
         {
-            if (command is null)
-            {
-                throw Error.ArgumentNull(nameof(command));
-            }
+            Error.ThrowIfArgumentNull(nameof(command), command);
             AddWithValues(command.Parameters, parameters);
             return GetValueOrDefault<T>(await command.ExecuteScalarAsync(cancellationToken));
         }

@@ -5,6 +5,7 @@ using System.Data.SqlClient;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
+
 using RyanJuan.Minerva.Common;
 
 namespace RyanJuan.Minerva.SqlClientHelper

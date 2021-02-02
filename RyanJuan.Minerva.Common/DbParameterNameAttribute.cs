@@ -6,7 +6,7 @@ namespace RyanJuan.Minerva
     /// Specifies the name of the corresponding parameter.
     /// </summary>
     [AttributeUsage(AttributeTargets.Property, Inherited = false, AllowMultiple = true)]
-    public class DbParameterNameAttribute : Attribute
+    public sealed class DbParameterNameAttribute : Attribute
     {
         /// <summary>
         /// Specifies the name of the corresponding parameter.

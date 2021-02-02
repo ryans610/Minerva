@@ -33,16 +33,7 @@ namespace RyanJuan.Minerva.SqlClientHelper
         /// <summary>
         /// 所有 <see cref="SqlParameter"/> 允許的 <see cref="DbType"/>。
         /// </summary>
-        public static IReadOnlyCollection<DbType> ValidDbTypes
-        {
-            get
-            {
-                if (s_validDbTypes is null)
-                {
-                    s_validDbTypes = s_core.GetValidDbTypes().ToList().AsReadOnly();
-                }
-                return s_validDbTypes;
-            }
-        }
+        public static IReadOnlyCollection<DbType> ValidDbTypes =>
+            s_validDbTypes ??= s_core.GetValidDbTypes().ToList().AsReadOnly();
     }
 }

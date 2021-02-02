@@ -57,21 +57,15 @@ namespace RyanJuan.Minerva.Common
             DbParameterCollection collection,
             params object[] parameters)
         {
-            if (collection is null)
-            {
-                throw Error.ArgumentNull(nameof(collection));
-            }
+            Error.ThrowIfArgumentNull(nameof(collection), collection);
             foreach (var obj in parameters)
             {
-                foreach (var property in obj
-                    .GetType()
-                    .GetInstanceProperties()
-                    .Where(p => p.CanRead))
+                foreach (var property in ReflectionCenter.GetPropertiesForParameter(obj.GetType()))
                 {
                     try
                     {
                         var dbtype = property.GetCustomAttribute<DbTypeAttribute>();
-                        var type = dbtype is null ? GetDBType(property.PropertyType) : dbtype.DBType;
+                        var type = dbtype?.DBType ?? GetDBType(property.PropertyType);
                         var column = property.GetCustomAttribute<DbColumnNameAttribute>();
                         var value = property.GetValue(obj);
                         var added = false;
@@ -87,7 +81,7 @@ namespace RyanJuan.Minerva.Common
                                 dbtype?.Size);
                             added = true;
                         }
-                        if (column?.UseAsParameter ?? false &&
+                        if ((column?.UseAsParameter ?? false) &&
                             !string.IsNullOrEmpty(column.Name))
                         {
                             AddParameterValue(

@@ -51,21 +51,6 @@ namespace RyanJuan.Minerva.Common
             [typeof(DateTimeOffset?)] = DbType.DateTimeOffset,
         };
 
-        /// <summary>
-        /// Gets properties of the input type which are instance member.
-        /// </summary>
-        /// <param name="type">Input <see cref="Type"/>.</param>
-        /// <returns>All matching properties.</returns>
-        internal static PropertyInfo[] GetInstanceProperties(
-            this Type type)
-        {
-            return type.GetProperties(
-                BindingFlags.DeclaredOnly |
-                BindingFlags.Public |
-                BindingFlags.NonPublic |
-                BindingFlags.Instance);
-        }
-
         internal static T GetValueOrDefault<T>(
             object value)
         {
@@ -76,11 +61,9 @@ namespace RyanJuan.Minerva.Common
             this DbDataReader reader,
             Type type)
         {
-            var allProperties = type
-                .GetInstanceProperties()
-                .Where(p => p.CanWrite);
+            var allProperties = ReflectionCenter.GetPropertiesForColumn(type);
             var properties = new LinkedList<PropertyInfo>[reader.FieldCount];
-            for (int i = 0; i < reader.FieldCount; i++)
+            for (int i = 0; i < reader.FieldCount; i += 1)
             {
                 properties[i] = new LinkedList<PropertyInfo>();
                 string fieldName = reader.GetName(i);
@@ -94,7 +77,7 @@ namespace RyanJuan.Minerva.Common
                 if (!set)
                 {
                     var property = allProperties.FirstOrDefault(p => p.Name == fieldName);
-                    if (property != null)
+                    if (property is { })
                     {
                         properties[i].AddLast(property);
                     }
@@ -110,8 +93,9 @@ namespace RyanJuan.Minerva.Common
         {
             if (isObjectType)
             {
-                var instance = Activator.CreateInstance<T>();
-                for (int i = 0; i < reader.FieldCount; i++)
+                Error.ThrowIfArgumentNull(nameof(properties), properties);
+                var instance = ReflectionCenter.CreateInstance<T>();
+                for (int i = 0; i < reader.FieldCount; i += 1)
                 {
                     var propertiesForField = properties[i];
                     if (propertiesForField.Count == 0)

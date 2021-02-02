@@ -7,7 +7,7 @@ namespace RyanJuan.Minerva
     /// Specifies the database type of the corresponding parameter or column.
     /// </summary>
     [AttributeUsage(AttributeTargets.Property, Inherited = true, AllowMultiple = false)]
-    public class DbTypeAttribute : Attribute
+    public sealed class DbTypeAttribute : Attribute
     {
         /// <summary>
         /// Specifies the database type of the corresponding parameter or column.

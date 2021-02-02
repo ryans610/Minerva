@@ -51,10 +51,7 @@ namespace RyanJuan.Minerva.Common
             FetchMode fetchMode,
             params object[] parameters)
         {
-            if (command is null)
-            {
-                throw new ArgumentNullException(nameof(command));
-            }
+            Error.ThrowIfArgumentNull(nameof(command), command);
             if (fetchMode == FetchMode.Default)
             {
                 fetchMode = _defaultFetchMode;
@@ -70,44 +67,46 @@ namespace RyanJuan.Minerva.Common
                 {
                     properties = reader.GetBindingPropertiesOfType(type);
                 }
-                if (fetchMode == FetchMode.Buffer)
+                switch (fetchMode)
                 {
-                    using (reader)
+                    case FetchMode.Stream:
+                        return new FetchDataStream<T>(
+                           reader,
+                           isObjectType,
+                           properties,
+                           CancellationToken.None);
+                    case FetchMode.Hybrid:
                     {
-                        // FetchMode.Buffer as default
                         var list = new List<T>();
                         while (reader.Read())
                         {
                             list.Add(reader.GetValueAsT<T>(isObjectType, properties));
+                            if (list.Count == _firstBufferSizeForFetchModeHybrid)
+                            {
+                                return new FetchDataStream<T>(
+                                    reader,
+                                    isObjectType,
+                                    properties,
+                                    list,
+                                    CancellationToken.None);
+                            }
                         }
                         return list;
                     }
-                }
-                else if (fetchMode == FetchMode.Stream)
-                {
-                    return new FetchDataStream<T>(
-                        reader,
-                        isObjectType,
-                        properties,
-                        CancellationToken.None);
-                }
-                else
-                {
-                    var list = new List<T>();
-                    while (reader.Read())
+                    case FetchMode.Buffer:
+                    default:
                     {
-                        list.Add(reader.GetValueAsT<T>(isObjectType, properties));
-                        if (list.Count == _firstBufferSizeForFetchModeHybrid)
+                        using (reader)
                         {
-                            return new FetchDataStream<T>(
-                                reader,
-                                isObjectType,
-                                properties,
-                                list,
-                                CancellationToken.None);
+                            // FetchMode.Buffer as default
+                            var list = new List<T>();
+                            while (reader.Read())
+                            {
+                                list.Add(reader.GetValueAsT<T>(isObjectType, properties));
+                            }
+                            return list;
                         }
                     }
-                    return list;
                 }
             }
             return Enumerable.Empty<T>();
@@ -158,10 +157,7 @@ namespace RyanJuan.Minerva.Common
             CancellationToken cancellationToken,
             params object[] parameters)
         {
-            if (command is null)
-            {
-                throw new ArgumentNullException(nameof(command));
-            }
+            Error.ThrowIfArgumentNull(nameof(command), command);
             AddWithValues(command.Parameters, parameters);
             var reader = await command.ExecuteReaderAsync(behavior, cancellationToken);
             if (reader.HasRows)
@@ -173,52 +169,48 @@ namespace RyanJuan.Minerva.Common
                 {
                     properties = reader.GetBindingPropertiesOfType(type);
                 }
-                if (fetchMode == FetchMode.Buffer)
+                switch (fetchMode)
                 {
-                    using (reader)
+                    case FetchMode.Stream:
+                        return new FetchDataStream<T>(
+                           reader,
+                           isObjectType,
+                           properties,
+                           cancellationToken);
+                    case FetchMode.Hybrid:
                     {
-                        // FetchMode.Buffer as default
                         var list = new List<T>();
                         while (await reader.ReadAsync(cancellationToken))
                         {
-                            if (cancellationToken.IsCancellationRequested)
-                            {
-                                throw Error.OperationCanceled(cancellationToken);
-                            }
+                            Error.ThrowIfOperationCanceled(cancellationToken);
                             list.Add(reader.GetValueAsT<T>(isObjectType, properties));
+                            if (list.Count == _firstBufferSizeForFetchModeHybrid)
+                            {
+                                return new FetchDataStream<T>(
+                                    reader,
+                                    isObjectType,
+                                    properties,
+                                    list,
+                                    cancellationToken);
+                            }
                         }
                         return list;
                     }
-                }
-                else if (fetchMode == FetchMode.Stream)
-                {
-                    return new FetchDataStream<T>(
-                        reader,
-                        isObjectType,
-                        properties,
-                        cancellationToken);
-                }
-                else
-                {
-                    var list = new List<T>();
-                    while (await reader.ReadAsync(cancellationToken))
+                    case FetchMode.Buffer:
+                    default:
                     {
-                        if (cancellationToken.IsCancellationRequested)
+                        using (reader)
                         {
-                            throw Error.OperationCanceled(cancellationToken);
-                        }
-                        list.Add(reader.GetValueAsT<T>(isObjectType, properties));
-                        if (list.Count == _firstBufferSizeForFetchModeHybrid)
-                        {
-                            return new FetchDataStream<T>(
-                                reader,
-                                isObjectType,
-                                properties,
-                                list,
-                                cancellationToken);
+                            // FetchMode.Buffer as default
+                            var list = new List<T>();
+                            while (await reader.ReadAsync(cancellationToken))
+                            {
+                                Error.ThrowIfOperationCanceled(cancellationToken);
+                                list.Add(reader.GetValueAsT<T>(isObjectType, properties));
+                            }
+                            return list;
                         }
                     }
-                    return list;
                 }
             }
             return Enumerable.Empty<T>();
@@ -259,6 +251,7 @@ namespace RyanJuan.Minerva.Common
                 _isObjectType = isObjectType;
                 _properties = properties;
                 _buffer = buffer;
+                _lock = new ReaderWriterLockSlim();
                 _cancellationToken = cancellationToken;
             }
 
@@ -267,6 +260,8 @@ namespace RyanJuan.Minerva.Common
                 Dispose();
             }
 
+            private volatile bool _isDisposed = false;
+
             private DbDataReader _reader = null;
 
             private bool _isObjectType = false;
@@ -274,6 +269,8 @@ namespace RyanJuan.Minerva.Common
             private LinkedList<PropertyInfo>[] _properties = null;
 
             private List<T> _buffer = null;
+
+            private ReaderWriterLockSlim _lock = null;
 
             private CancellationToken _cancellationToken;
 
@@ -291,25 +288,38 @@ namespace RyanJuan.Minerva.Common
                 _isObjectType = false;
                 _properties = null;
                 _buffer = null;
+                if (_lock != null)
+                {
+                    _lock.Dispose();
+                    _lock = null;
+                }
                 _cancellationToken = CancellationToken.None;
                 GC.SuppressFinalize(this);
             }
 
-            public IEnumerator<T> GetEnumerator()
-                => new Enumerator(this);
+            public IEnumerator<T> GetEnumerator() =>
+                new Enumerator(this);
 
-            IEnumerator IEnumerable.GetEnumerator()
-                => GetEnumerator();
+            IEnumerator IEnumerable.GetEnumerator() =>
+                GetEnumerator();
 
             private bool MoveNext(int index)
             {
-                if (_cancellationToken.IsCancellationRequested)
+                Error.ThrowIfOperationCanceled(_cancellationToken);
+                int count;
+                _lock.EnterReadLock();
+                try
                 {
-                    throw Error.OperationCanceled(_cancellationToken);
+                    count = _buffer.Count;
                 }
-                lock (_buffer)
+                finally
                 {
-                    if (index == _buffer.Count)
+                    _lock.ExitReadLock();
+                }
+                if (index == count)
+                {
+                    _lock.EnterWriteLock();
+                    try
                     {
                         if (_reader.Read())
                         {
@@ -317,10 +327,14 @@ namespace RyanJuan.Minerva.Common
                             return true;
                         }
                     }
-                    else if (index < _buffer.Count)
+                    finally
                     {
-                        return true;
+                        _lock.ExitWriteLock();
                     }
+                }
+                else if (index < count)
+                {
+                    return true;
                 }
                 return false;
             }
@@ -341,13 +355,14 @@ namespace RyanJuan.Minerva.Common
 
                 private int _index;
 
-                private bool _isDisposed;
+                private volatile bool _isDisposed;
 
                 public T Current
                 {
                     get
                     {
-                        if (_isDisposed)
+                        if (_isDisposed ||
+                            _stream._isDisposed)
                         {
                             throw Error.ObjectDisposed(nameof(Enumerator));
                         }
@@ -372,15 +387,37 @@ namespace RyanJuan.Minerva.Common
 
                 public bool MoveNext()
                 {
-                    if (_isDisposed)
+                    if (_isDisposed ||
+                        _stream._isDisposed)
                     {
                         throw Error.ObjectDisposed(nameof(Enumerator));
                     }
-                    if (_index < _stream._buffer.Count ||
+
+                    int count;
+                    _stream._lock.EnterReadLock();
+                    try
+                    {
+                        count = _stream._buffer.Count;
+                    }
+                    finally
+                    {
+                        _stream._lock.ExitReadLock();
+                    }
+
+                    if (_index < count ||
                         _stream.MoveNext(_index))
                     {
-                        _current = _stream._buffer[_index];
-                        _index++;
+                        _stream._lock.EnterReadLock();
+                        try
+                        {
+                            _current = _stream._buffer[_index];
+                        }
+                        finally
+                        {
+                            _stream._lock.ExitReadLock();
+                        }
+
+                        _index += 1;
                         return true;
                     }
                     return false;
@@ -388,10 +425,12 @@ namespace RyanJuan.Minerva.Common
 
                 public void Reset()
                 {
-                    if (_isDisposed)
+                    if (_isDisposed ||
+                        _stream._isDisposed)
                     {
                         throw Error.ObjectDisposed(nameof(Enumerator));
                     }
+
                     _index = 0;
                     _current = default;
                 }

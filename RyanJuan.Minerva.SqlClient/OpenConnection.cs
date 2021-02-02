@@ -5,6 +5,7 @@ using System.Data.SqlClient;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
+
 using RyanJuan.Minerva.Common;
 
 namespace RyanJuan.Minerva.SqlClientHelper
@@ -44,10 +45,10 @@ namespace RyanJuan.Minerva.SqlClientHelper
         /// </summary>
         /// <param name="connectionString"></param>
         /// <returns></returns>
-        public static async Task<SqlConnection> OpenConnectionAsync(
+        public static Task<SqlConnection> OpenConnectionAsync(
             string connectionString)
         {
-            return await OpenConnectionAsync(
+            return OpenConnectionAsync(
                 connectionString,
                 CancellationToken.None);
         }
@@ -58,11 +59,11 @@ namespace RyanJuan.Minerva.SqlClientHelper
         /// <param name="connectionString"></param>
         /// <param name="credential"></param>
         /// <returns></returns>
-        public static async Task<SqlConnection> OpenConnectionAsync(
+        public static Task<SqlConnection> OpenConnectionAsync(
             string connectionString,
             SqlCredential credential)
         {
-            return await OpenConnectionAsync(
+            return OpenConnectionAsync(
                 connectionString,
                 credential,
                 CancellationToken.None);

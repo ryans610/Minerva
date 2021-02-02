@@ -29,10 +29,7 @@ namespace RyanJuan.Minerva.Common
             DbCommand command,
             params object[] parameters)
         {
-            if (command is null)
-            {
-                throw Error.ArgumentNull(nameof(command));
-            }
+            Error.ThrowIfArgumentNull(nameof(command), command);
             AddWithValues(command.Parameters, parameters);
             return command.ExecuteNonQuery();
         }
@@ -61,17 +58,14 @@ namespace RyanJuan.Minerva.Common
         /// <exception cref="ArgumentException">
         /// <see cref="DbType"/> of parameter is not valid.
         /// </exception>
-        public async Task<int> ExecuteAsync(
+        public Task<int> ExecuteAsync(
             DbCommand command,
             CancellationToken cancellationToken,
             params object[] parameters)
         {
-            if (command is null)
-            {
-                throw Error.ArgumentNull(nameof(command));
-            }
+            Error.ThrowIfArgumentNull(nameof(command), command);
             AddWithValues(command.Parameters, parameters);
-            return await command.ExecuteNonQueryAsync(cancellationToken);
+            return command.ExecuteNonQueryAsync(cancellationToken);
         }
     }
 }

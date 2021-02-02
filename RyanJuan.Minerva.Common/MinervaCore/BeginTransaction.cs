@@ -24,14 +24,8 @@ namespace RyanJuan.Minerva.Common
             DbCommand command,
             IsolationLevel isolationLevel)
         {
-            if (connection is null)
-            {
-                throw Error.ArgumentNull(nameof(connection));
-            }
-            if (command is null)
-            {
-                throw Error.ArgumentNull(nameof(command));
-            }
+            Error.ThrowIfArgumentNull(nameof(connection), connection);
+            Error.ThrowIfArgumentNull(nameof(command), command);
             var trans = connection.BeginTransaction(isolationLevel);
             command.Transaction = trans;
             return trans;
