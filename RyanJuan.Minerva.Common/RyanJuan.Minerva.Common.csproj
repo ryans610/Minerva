@@ -1,35 +1,37 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
-  <PropertyGroup>
-    <TargetFrameworks>netcoreapp3.1;netstandard2.1</TargetFrameworks>
-    <LangVersion>8.0</LangVersion>
-    <Version>1.1.0-beta00204</Version>
-    <Authors>RyanJuan</Authors>
-    <Company>RyanJuan</Company>
-    <Copyright>Copyright ©2019 RyanJuan</Copyright>
-    <PackageProjectUrl>https://github.com/ryans610/Minerva</PackageProjectUrl>
-    <PackageLicenseUrl>https://github.com/ryans610/Minerva/blob/master/LICENSE</PackageLicenseUrl>
-    <Description>Core project for RyanJuan.Minerva.
-Should not be used directly, use other subset of RyanJuan.Minerva which implement for various database instead, such as RyanJuan.Minerva.SqlClient etc.</Description>
-    <Configurations>Debug;Release;Release-zh-Hant</Configurations>
-  </PropertyGroup>
+    <PropertyGroup>
+        <TargetFrameworks>netcoreapp3.1;netstandard2.1</TargetFrameworks>
+        <LangVersion>8.0</LangVersion>
+        <Version>1.1.0-beta00204</Version>
+        <Authors>RyanJuan</Authors>
+        <Company>RyanJuan</Company>
+        <Copyright>Copyright ©2019 RyanJuan</Copyright>
+        <PackageProjectUrl>https://github.com/ryans610/Minerva</PackageProjectUrl>
+        <PackageLicenseUrl>https://github.com/ryans610/Minerva/blob/master/LICENSE</PackageLicenseUrl>
+        <Description>
+            Core project for RyanJuan.Minerva.
+            Should not be used directly, use other subset of RyanJuan.Minerva which implement for various database instead, such as RyanJuan.Minerva.SqlClient etc.
+        </Description>
+        <Configurations>Debug;Release;Release-zh-Hant</Configurations>
+    </PropertyGroup>
 
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
-    <DocumentationFile>D:\ryan\Minerva\RyanJuan.Minerva.Common\RyanJuan.Minerva.Common.xml</DocumentationFile>
-  </PropertyGroup>
+    <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
+        <DocumentationFile>D:\ryan\Minerva\RyanJuan.Minerva.Common\RyanJuan.Minerva.Common.xml</DocumentationFile>
+    </PropertyGroup>
 
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release-zh-Hant|AnyCPU'">
-    <DocumentationFile>D:\ryan\Minerva\RyanJuan.Minerva.Common\RyanJuan.Minerva.Common.xml</DocumentationFile>
-    <DefineConstants>TRACE;ZH_HANT</DefineConstants>
-  </PropertyGroup>
+    <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release-zh-Hant|AnyCPU'">
+        <DocumentationFile>D:\ryan\Minerva\RyanJuan.Minerva.Common\RyanJuan.Minerva.Common.xml</DocumentationFile>
+        <DefineConstants>TRACE;ZH_HANT</DefineConstants>
+    </PropertyGroup>
 
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
-    <DocumentationFile>D:\ryan\Minerva\RyanJuan.Minerva.Common\RyanJuan.Minerva.Common.xml</DocumentationFile>
-  </PropertyGroup>
+    <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
+        <DocumentationFile>D:\ryan\Minerva\RyanJuan.Minerva.Common\RyanJuan.Minerva.Common.xml</DocumentationFile>
+    </PropertyGroup>
 
-  <ItemGroup>
-    <Folder Include="lib\netstandard2.1\" />
-    <Folder Include="lib\netcoreapp3.1\" />
-  </ItemGroup>
+    <ItemGroup>
+        <Folder Include="lib\netstandard2.1\" />
+        <Folder Include="lib\netcoreapp3.1\" />
+    </ItemGroup>
 
 </Project>
